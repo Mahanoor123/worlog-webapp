@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/add-create-blog.css">
+    <title>Add Blog</title>
+</head>
+
+<body>
+    <!---------------------- Navbar ---------------------->
+    <nav class="navbar">
+    <div class="social_icons">
+    <i class="fa-brands fa-facebook-f"></i>
+    <i class="fa-brands fa-instagram"></i>
+    <i class="fa-brands fa-pinterest-p"></i>
+    </div>
+    <div class="logo">WorLog</div>
+    <div class="navlinks">
+    <a href="#" class="wishlist"><i class="fa-solid fa-heart"></i> <span id="fvrt-count">0</span></a>
+    <a href="./Assets/html/profile.html" class="profile"><i class="fa-solid fa-user"></i></a>
+    <a href="./Assets/html/login.html" class="login_btn">Login</a></li>
+    </div>
+    </nav>
+
+    <!---------------------- Create Blog ---------------------->
+
+    <main>
+        <section class="create_header">
+            <div class="create_blog">
+                <div class="blog_header">
+                    <a href="#" class="back"><i class="fa-solid fa-less-than"></i>Back</a>
+                    <h3>Add Your Blog</h3>
+                    <a href="#" class="extra_option">Extra Option</a>
+                </div>
+                <div class="add_blog_info">
+                    <!-- Blog Form -->
+                    <form class="blog_form">
+                        <div class="blog_basic">
+                            <h4><i class="fas fa-info-circle"></i> Basic Blog Information</h4>
+                            <div class="blog_title">
+                                <input type="text" placeholder="Blog Title">
+                            </div>
+                            <div class="blog_seo_title">
+                                <input type="text" placeholder="URL friendly title">
+                            </div>
+                            <div class="blog_cat">
+                                <select id="categorySelect" name="Categories">
+                                    <option value="" disabled selected>Select Category</option>
+                                    <option value="Technology">Technology</option>
+                                    <option value="Business">Business</option>
+                                    <option value="Travelling">Travelling</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Entertainment">Entertainment</option>
+                                </select>
+                            </div>
+                            <div class="blog_tags">
+                                <input type="text" placeholder="Important tags (Comma separated)">
+                            </div>
+                        </div>
+
+                        <div class="blog_media">
+                            <h4><i class="fas fa-edit"></i> Blog Content & Media</h4>
+                            <div class="blog_content">
+                                <div class="editor-toolbar">
+                                    <button type="button" onclick="formatText('bold')"><i
+                                            class="fas fa-bold"></i></button>
+                                    <button type="button" onclick="formatText('italic')"><i
+                                            class="fas fa-italic"></i></button>
+                                    <button type="button" onclick="formatText('underline')"><i
+                                            class="fas fa-underline"></i></button>
+                                    <button type="button" onclick="formatText('justifyLeft')"><i
+                                            class="fas fa-align-left"></i></button>
+                                    <button type="button" onclick="formatText('justifyCenter')"><i
+                                            class="fas fa-align-center"></i></button>
+                                    <button type="button" onclick="formatText('justifyRight')"><i
+                                            class="fas fa-align-right"></i></button>
+                                </div>
+                                <div contenteditable="true" id="richTextEditor" class="editor" aria-placeholder="Enter blog content">
+                                </div>
+                            </div>
+                            <div class="blog_summary">
+                                <input type="text" placeholder="Short Summary (for preview)">
+                            </div>
+                            <div class="blog_images">
+                                <label class="file_upload">
+                                    <i class="fas fa-image"></i> Upload Blog Cover
+                                    <input type="file">
+                                </label>
+                                <label class="file_upload">
+                                    <i class="fas fa-images"></i> Upload Additional Image
+                                    <input type="file">
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="author_info">
+                            <h4><i class="fas fa-user"></i> Author Information</h4>
+                            <div class="author_name">
+                                <input type="text" placeholder="Author name">
+                                <label class="file_upload">
+                                    <i class="fas fa-user-circle"></i> Upload Author Image
+                                    <input type="file">
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="status_controls">
+                            <h4><i class="fas fa-clock"></i> Additional Info</h4>
+                            <input type="text" placeholder="Estimated Reading Time">
+                            <input type="text" placeholder="Reading URL (optional)">
+                            <input type="text" placeholder="Important Keywords">
+                        </div>
+
+                        <button class="primary_btn">Publish</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+<script src="../js/add-blog.js"></script>
+</body>
+
+</html>

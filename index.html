@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="./Assets/css/style.css">
+    <title>Homepage</title>
+</head>
+
+<body>
+
+    <!---------------------- Navbar ---------------------->
+    <nav class="navbar">
+        <div class="social_icons">
+            <i class="fa-brands fa-facebook-f"></i>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-pinterest-p"></i>
+        </div>
+        <div class="logo">WorLog</div>
+        <div class="navlinks">
+            <a href="#" class="wishlist"><i class="fa-solid fa-heart"></i> <span id="fvrt-count">0</span></a>
+            <a href="./Assets/html/profile.html" class="profile"><i class="fa-solid fa-user"></i></a>
+            <a href="./Assets/html/login.html" class="login_btn">Login</a></li>
+        </div>
+    </nav>
+    <!-- Mobile Menu Icon -->
+    <div class="mobile_nav">
+        <div class="mobile_logo"><img src="./public/images/ABC_logo.png"></div>
+        <div class="menu-toggle"> ☰ </div>
+    </div>
+    <nav class="navbar2">
+        <div class="searchbar">
+            <input type="text" placeholder="Search">
+            <i class="fa-solid fa-search"></i>
+        </div>
+        <div class="navlinks2">
+            <a href="./index.html">Home</a>
+            <a href="./Assets/html/blogs.html">Blogs</a>
+            <a href="./Assets/html/about.html">About</a>
+            <a href="#">Faqs</a>
+        </div>
+    </nav>
+
+    <!---------------------- Hero Section ---------------------->
+    <div class="hero">
+        <div class="hero_image">
+            <img src="./Assets/images/backgrounds/background3.png" class="current_img">
+        </div>
+        <div class="hero_content">
+            <img src="./Assets/images/backgrounds/mike.png">
+            <h1>WORLOG</h1>
+            <p>We are the world of thinkers share our voices with insights.</p>
+            <button class="explore_btn">Explore Blogs <i class="fa-solid fa-arrow-right"></i></button>
+            <button class="write_blog"><i class="fa-solid fa-pencil"></i>Write blog</button>
+        </div>
+        <button class="left_carousel" onclick="leftArrow()"><i class="fa-regular fa-less-than"></i></button>
+        <button class="right_carousel" onclick="rightArrow()"><i class="fa-regular fa-greater-than"></i></button>
+    </div>
+
+    <!---------------------- All Blogs Section ---------------------->
+
+    <main>
+        <section class="blogs_category">
+            <h2>Popular Categories</h2>
+            <div class="categories">
+                <a href="#" class="business_cat">Most Popular</a>
+                <a href="#" class="business_cat">Business</a>
+                <a href="#" class="business_cat">Technology</a>
+                <a href="#" class="business_cat">Meal</a>
+                <a href="#" class="business_cat">Travelling</a>
+                <a href="#" class="business_cat">Education</a>
+                <a href="#" class="business_cat">Entertainment</a>
+            </div>
+        </section>
+        <section class="cards_container">
+            <div class="head">
+                <h2>Recent and Latest Blogs</h2>
+                <div class="searchbar">
+                    <input type="text" placeholder="Search">
+                    <i class="fa-solid fa-search"></i>
+                </div>
+            </div>
+            <div class="latest_container">
+                <div class="latest_card active" data-index="0">
+                    <div class="card_date">
+                        Posted on: <span>23 Feb 2025</span> - <span class="cat">Business</span>
+                    </div>
+                    <div class="card_title">
+                        Night traveling might be comfy.
+                    </div>
+                    <div class="card_desc">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi est earum quas officia! Nam,
+                        similique vel eaque repudiandae odit voluptatum ad officia aspernatur quaerat commodi....
+                    </div>
+                    <div class="card_image">
+                        <img src="./Assets/images/card-imgs/card1.png">
+                    </div>
+                    <div class="card_link">
+                        <a href="./Assets/html/full-blog.html">Read full</a>
+                    </div>
+                </div>
+                <div class="latest_card" data-index="1">
+                    <div class="card_date">
+                        Posted on: <span>23 Feb 2025</span> - <span class="cat">Business</span>
+                    </div>
+                    <div class="card_title">
+                        The world is losing gold bars.
+                    </div>
+                    <div class="card_desc">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi est earum quas officia! Nam,
+                        similique vel eaque repudiandae odit voluptatum ad officia aspernatur quaerat commodi....
+                    </div>
+                    <div class="card_image">
+                        <img src="./Assets/images/card-imgs/card2.png">
+                    </div>
+                    <div class="card_link">
+                        <a href="./Assets/html/full-blog.html">Read full</a>
+                    </div>
+                </div>
+                <div class="latest_card" data-index="2">
+                    <div class="card_date">
+                        Posted on: <span>23 Feb 2025</span> - <span class="cat">Business</span>
+                    </div>
+                    <div class="card_title">
+                        Best Laptop for Development.
+                    </div>
+                    <div class="card_desc">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi est earum quas officia! Nam,
+                        similique vel eaque repudiandae odit voluptatum ad officia aspernatur quaerat commodi....
+                    </div>
+                    <div class="card_image">
+                        <img src="./Assets/images/card-imgs/card3.png">
+                    </div>
+                    <div class="card_link">
+                        <a href="./Assets/html/full-blog.html">Read full</a>
+                    </div>
+                </div>
+                <div class="latest_card" data-index="3">
+                    <div class="card_date">
+                        Posted on: <span>23 Feb 2025</span> - <span class="cat">Business</span>
+                    </div>
+                    <div class="card_title">
+                        Best Laptop for Development.
+                    </div>
+                    <div class="card_desc">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi est earum quas officia! Nam,
+                        similique vel eaque repudiandae odit voluptatum ad officia aspernatur quaerat commodi....
+                    </div>
+                    <div class="card_image">
+                        <img src="./Assets/images/card-imgs/card4.png">
+                    </div>
+                    <div class="card_link">
+                        <a href="./Assets/html/full-blog.html">Read full</a>
+                    </div>
+                </div>
+                <div class="latest_card" data-index="4">
+                    <div class="card_date">
+                        Posted on: <span>23 Feb 2025</span> - <span class="cat">Business</span>
+                    </div>
+                    <div class="card_title">
+                        Best Laptop for Development.
+                    </div>
+                    <div class="card_desc">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi est earum quas officia! Nam,
+                        similique vel eaque repudiandae odit voluptatum ad officia aspernatur quaerat commodi....
+                    </div>
+                    <div class="card_image">
+                        <img src="./Assets/images/card-imgs/card5.png">
+                    </div>
+                    <div class="card_link">
+                        <a href="./Assets/html/full-blog.html">Read full</a>
+                    </div>
+                </div>
+                <div class="latest_card" data-index="5">
+                    <div class="card_date">
+                        Posted on: <span>23 Feb 2025</span> - <span class="cat">Business</span>
+                    </div>
+                    <div class="card_title">
+                        Best Laptop for Development.
+                    </div>
+                    <div class="card_desc">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi est earum quas officia! Nam,
+                        similique vel eaque repudiandae odit voluptatum ad officia aspernatur quaerat commodi....
+                    </div>
+                    <div class="card_image">
+                        <img src="./Assets/images/card-imgs/card6.png">
+                    </div>
+                    <div class="card_link">
+                        <a href="./Assets/html/full-blog.html">Read full</a>
+                    </div>
+                </div>
+                <div class="latest_card" data-index="6">
+                    <div class="card_date">
+                        Posted on: <span>23 Feb 2025</span> - <span class="cat">Business</span>
+                    </div>
+                    <div class="card_title">
+                        Best Laptop for Development.
+                    </div>
+                    <div class="card_desc">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi est earum quas officia! Nam,
+                        similique vel eaque repudiandae odit voluptatum ad officia aspernatur quaerat commodi....
+                    </div>
+                    <div class="card_image">
+                        <img src="./Assets/images/card-imgs/card3.png">
+                    </div>
+                    <div class="card_link">
+                        <a href="./Assets/html/full-blog.html">Read full</a>
+                    </div>
+                </div>
+            </div>
+            <button class="view_more">View more</button>
+        </section>
+        <section class="about_section">
+            <h2>About Us</h2>
+            <div class="about_blog">
+                <div class="about_left">
+                    <h3>World's top Blogs here</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore est, enim mollitia cupiditate
+                        voluptas ipsa doloribus laboriosam suscipit harum quam nisi ab perspiciatis facere dolores odio
+                        itaque molestias illo dignissimos corporis consequuntur? Voluptates quis dicta consequuntur,
+                        corporis commodi modi? Nam quam fugiat quas eum autem. Omnis magni quisquam error exercitationem
+                        natus neque aspernatur! Deserunt, ducimus.</p>
+                </div>
+                <div class="about-centre">
+                    <img src="./Assets/images/backgrounds/aboutt.png">
+                </div>
+                <div class="about_right">
+                    <h4>WE LIVE BY THE WRITTEN PASSION</h4>
+                    <img src="./Assets/images/logos&illustration/arroww.png">
+                    <small>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis ipsam ipsa cupiditate nobis
+                        nisi quod?</small>
+                </div>
+            </div>
+        </section>
+        <section class="newsletter">
+            <div class="newsletter_image">
+                <img src="./Assets/images/backgrounds/about.png">
+            </div>
+            <form class="news_form">
+                <h3>Get our latest posts</h3>
+                <input type="email" placeholder="Enter Email">
+                <button class="primary_btn">Subscribe</button>
+            </form>
+        </section>
+        <section class="badges">
+            <h2>Get Premium badges</h2>
+            <div class="badge_display">
+                
+            </div>
+        </section>
+    </main>
+
+    <script src="./Assets/js/index.js"></script>
+</body>
+
+</html>

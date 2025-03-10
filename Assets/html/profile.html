@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <title>Profilepage</title>
+</head>
+
+<body>
+    <!---------------------- Navbar ---------------------->
+    <nav class="navbar">
+        <div class="social_icons">
+            <i class="fa-brands fa-facebook-f"></i>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-pinterest-p"></i>
+        </div>
+        <div class="logo">WorLog</div>
+        <div class="navlinks">
+            <a href="#" class="wishlist"><i class="fa-solid fa-heart"></i> <span id="fvrt-count">0</span></a>
+            <a href="./Assets/html/profile.html" class="profile"><i class="fa-solid fa-user"></i></a>
+            <a href="./Assets/html/login.html" class="login_btn">Login</a></li>
+        </div>
+    </nav>
+
+    <!---------------------- Profile ---------------------->
+
+    <main>
+
+        <div class="user_profile">
+            <aside>
+                <button class="tab-link active" data-target="profile"><i class="fa-solid fa-user"></i>My
+                    Profile</button>
+                <button class="tab-link" data-target="blogs"><i class="fa-solid fa-blog"></i>My Blogs</button>
+                <button class="tab-link" data-target="favorites"><i class="fa-solid fa-heart"></i>My favorites</button>
+                <button class="tab-link" data-target="notification"><i
+                        class="fa-solid fa-bell"></i>Notifications</button>
+                <button class="tab-link" data-target="badges"><i class="fa-solid fa-certificate"></i>My badges</button>
+                <button class="tab-link" data-target="settings"><i class="fa-solid fa-gear"></i>Settings</button>
+                <button class="tab-link" data-target="logout"><i
+                        class="fa-solid fa-arrow-right-from-bracket"></i>Logout</button>
+            </aside>
+
+            <div class="main">
+                <div id="profile" class="tab-content active">
+                    <img src="../images/logos&illustration/user-profile.jpg" class="user_pic">
+                    <h5 class="user_name">John Doe</h5>
+                    <p class="user_email">johndoe@gmail.com</p>
+                    <p class="user_country">Turkey</p>
+                    <p class="user_contact">090078601</p>
+                    <button class="edit_profile"><i class="fa-solid fa-pen"></i> Edit Profile</button>
+                </div>
+                <div id="blogs" class="tab-content">
+                    <h2>My Blogs</h2>
+                    <p>You have no blogs yet...</p>
+                    <!-- <button class="write_blog"><i class="fa-solid fa-pencil"></i>Write blog</button> -->
+                </div>
+                <div id="favorites" class="tab-content">
+                    <h2>My Favorites</h2>
+                    <p>You have no favorites blog yet......</p>
+                </div>
+                <div id="favorites" class="tab-content">
+                    <h2>My Favorites</h2>
+                    <p>You have no favorites blog yet......</p>
+                </div>
+                <div id="notification" class="tab-content">
+                    <h2>Notifications</h2>
+                    <p>You have no notifications yet......</p>
+                </div>
+                <div id="badges" class="tab-content">
+                    <h2>My Badges</h2>
+                    <p>You have no badges earn yet......</p>
+                </div>
+                <div id="settings" class="tab-content">
+                    <h2>Settings</h2>
+                    <p>Settings options go here...</p>
+                </div>
+                <div id="logout" class="tab-content">
+                    <h2>Logout</h2>
+                    <p>You have logged out.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/profile.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+
+
+
+
+
+
+
+
+
+.cards_display {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin: 4rem 0;
+  }
+  .cards_display .card {
+    background: linear-gradient(
+      125deg,
+      rgba(17, 17, 17, 1) 0%,
+      rgba(0, 0, 2, 1) 50%,
+      rgba(17, 17, 17, 1) 100%
+    );
+    border: 0.1rem solid var(--black-tint2);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+  }
+  .cards_display .card_head {
+    color: var(--white-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+  }
+  .card .card_head p {
+    font-size: 1.5rem;
+  }
+  .card .card_title {
+    font-size: 1.6rem;
+    color: var(--black-tint4);
+    padding: 0.5rem 0;
+  }
+  .card .card_image {
+    background-color: #000002;
+    width: 27vw;
+    height: 25vh;
+    padding: 1rem;
+    margin: 0.8rem 0;
+  }
+  .card .card_image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .card .card_footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card .card_footer .card_info {
+    display: flex;
+    align-items: center;
+    color: var(--black-tint4);
+    padding: 0.4rem 0;
+  }
+  .card .card_info .blog_info h5 {
+    color: var(--black-tint4);
+    font-size: 0.8rem;
+    padding: 0.2rem;
+  }
+  .card .card_info .blog_info p {
+    color: var(--black-tint4);
+    font-size: 0.8rem;
+    padding: 0.2rem;
+  }
+  .card .full_read {
+    all: unset;
+    color: var(--white-color);
+    font-size: 0.9rem;
+    background: linear-gradient(
+      90deg,
+      rgba(44, 44, 44, 1) 0%,
+      rgba(0, 0, 2, 1) 50%,
+      rgba(44, 44, 44, 1) 100%
+    );
+    border-radius: 0.5rem;
+    padding: 0.4rem 2rem;
+    border: 0.1rem solid var(--black-tint4);
+  }
+  .blog_search {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem;
+  }
+  .blog_search h5 {
+    color: var(--black-tint4);
+  }
+  .blog_search input {
+    all: unset;
+    border: 0.1rem solid var(--black-tint3);
+    padding: 0.5rem 6rem 0.5rem 0.5rem;
+    border-radius: 0.5rem;
+  }
+  
