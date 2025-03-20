@@ -1,4 +1,37 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
+  updatePassword,
+  updateProfile,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+  sendPasswordResetEmail,
+  sendEmailVerification,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  collection,
+  getDocs,
+  onSnapshot,
+  updateDoc,
+  addDoc,
+  serverTimestamp,
+  query,
+  orderBy,
+  where,
+  deleteDoc,
+  arrayUnion,
+  arrayRemove,
+} from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCZhvD2WwJkWDU8QAS9Yf4uIMahvi9PzEM",
@@ -11,5 +44,35 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-export { auth };
+export {
+  auth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+  sendPasswordResetEmail,
+  fetchSignInMethodsForEmail,
+  updatePassword,
+  updateProfile,
+  onAuthStateChanged,
+  db,
+  doc,
+  setDoc,
+  getDoc,
+  collection,
+  getDocs,
+  onSnapshot,
+  updateDoc,
+  addDoc,
+  serverTimestamp,
+  query,
+  orderBy,
+  where,
+  deleteDoc,
+  arrayUnion,
+  arrayRemove,
+};

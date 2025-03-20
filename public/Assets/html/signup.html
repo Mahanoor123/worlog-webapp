@@ -4,28 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="../css/forms.css">
     <title>Signup</title>
 </head>
 
 <body>
     <div class="main">
-        <!-- <a href="/index.html">home</a> -->
-        <section class="signup_form">
+        <div class="error_popup"></div>
+        <form class="signup_form">
             <img src="../images/logos&illustration/user_signup.png" alt="User Signin" class="profile">
             <div class="form_inputs">
-                <input type="text" placeholder="Name">
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Password">
+                <input type="text" placeholder="Name" id="userName">
+                <input type="email" placeholder="Email" id="userEmail">
+                <!-- Password Validation -->
+                <div class="password-container">
+                    <div class="password_input">
+                        <input type="password" placeholder="Password" id="userPassword">
+                        <i id="eyeIcon" class="fa-solid fa-eye-slash"></i>
+                    </div>
+                    
+                    <div class="password-requirements">
+                        <label id="uppercaseCheck">✔ Uppercase letter (A-Z)</label>
+                        <label id="lowercaseCheck">✔ Lowercase letter (a-z)</label>
+                        <label id="numberCheck">✔ Numeric value (0-9)</label>
+                        <label id="specialCharCheck">✔ Special character (!@#$%^&*)</label>
+                        <label id="lengthCheck">✔ At least 8 characters</label>
+                    </div>
+                </div>
+
+                <input type="password" placeholder="Confirm Password" id="confirmPassword">
+                <p id="confirmError" class="error-message"></p>
             </div>
             <div class="signup_btn">
-                <button>SignUp</button>
+                <button type="submit">SignUp</button>
             </div>
             <p class="login_link">Already have an account? <a href="./login.html">Login</a> here</p>
-        </section>
+        </form>
     </div>
 
-    <script src="./Assets/js/index.js"></script>
+    <script type="module" src="../js/forms.js"></script>
 </body>
 
 </html>

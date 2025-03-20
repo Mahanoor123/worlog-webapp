@@ -146,12 +146,12 @@ main {
   font-family: "poppins";
   font-weight: 400;
 }
-.blog_header .back {
+.back {
   text-decoration: none;
   font-size: 1rem;
   color: var(--black-tint3);
 }
-.blog_header .back i {
+.back i {
   margin-right: 0.5rem;
 }
 .blog_header .extra_option {

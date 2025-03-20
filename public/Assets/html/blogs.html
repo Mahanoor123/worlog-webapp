@@ -4,189 +4,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/Assets/css/blogs.css">
-    <title>Homepage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="/public/Assets/css/blogs.css">
+    <title>All blogs</title>
 </head>
 
 <body>
-    <div class="main">
-        <nav>
-            <h4 class="logo">WorLog</h4>
-            <ul>
-                <a href="./products.html">Blogs</a>
-                <a href="#">Feature</a>
-                <a href="#">Community</a>
-                <a href="#">Login</a>
-            </ul>
-        </nav>
+    <!---------------------- Navbar ---------------------->
+    <nav class="navbar">
+        <div class="social_icons">
+            <i class="fa-brands fa-facebook-f"></i>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-pinterest-p"></i>
+        </div>
+        <div class="logo">WorLog</div>
+        <div class="navlinks">
+            <a href="#" class="wishlist"><i class="fa-solid fa-heart"></i> <span id="fvrt-count">0</span></a>
+            <a href="/public/Assets/html/profile.html" class="profile"><i class="fa-solid fa-user"></i></a>
+            <a href="/public/Assets/html/login.html" class="login_btn">Login</a></li>
+        </div>
+    </nav>
+    <!-- Mobile Menu Icon -->
+    <div class="mobile_nav">
+        <div class="mobile_logo"><img src="./public/images/ABC_logo.png"></div>
+        <div class="menu-toggle"> ☰ </div>
+    </div>
+    <nav class="navbar2">
+        <div class="searchbar">
+            <input type="text" placeholder="Search">
+            <i class="fa-solid fa-search"></i>
+        </div>
+        <div class="navlinks2">
+            <a href="/index.html">Home</a>
+            <a href="/blogs.html">Blogs</a>
+            <a href="/public/Assets/html/about.html">About</a>
+            <a href="#">Faqs</a>
+        </div>
+    </nav>
 
-        <section class="blog_search">
-            <div class="blog_category">
-                <h5>Ctegory</h5>
+
+    <!---------------------- All Blogs Section ---------------------->
+    <main>
+        <section class="blogs_category">
+            <h2>The World's Top Topics</h2>
+            <div class="categories">
+                <a href="#" class="business_cat">Most Popular</a>
+                <a href="#" class="business_cat">Business</a>
+                <a href="#" class="business_cat">Technology</a>
+                <a href="#" class="business_cat">Meal</a>
+                <a href="#" class="business_cat">Travelling</a>
+                <a href="#" class="business_cat">Education</a>
+                <a href="#" class="business_cat">Entertainment</a>
             </div>
-            <div class="blog_searchbar">
-                <input type="search" placeholder="Search blog">
-            </div>
-            <di class="blog_sorting">
-                <h5>Sorting</h5>
-            </di>
         </section>
 
+        <!-- <section class="blog_search"> -->
+            <!-- <div class="searchbar"> -->
+                <!-- <input type="text" placeholder="Search"> -->
+                <!-- <i class="fa-solid fa-search"></i> -->
+            <!-- </div> -->
+            <!-- <di class="blog_sorting"> -->
+                <!-- <h5>Sorting</h5> -->
+            <!-- </di> -->
+        <!-- </section> -->
 
         <section class="cards_container">
-            <!-- <div class="cards_header"> -->
-                <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, in est? Asperiores cum repudiandae -->
-                    <!-- veniam omnis.</p> -->
-                <!-- <h2>The World's Top Topics</h2> -->
-            <!-- </div> -->
             <div class="cards_display">
                 <div class="card">
                     <div class="card_head">
-                        <small>29 January 2025</small>
-                        <p>&hearts;</p>
+                        <div class="card_date">
+                            Posted on: <span>23 Feb 2025</span> - <span class="cat">Business</span>
+                        </div>
+                        <i class="fa-solid fa-heart"></i>
                     </div>
                     <div class="card_title">
                         The world is losing gold bars.
                     </div>
                     <div class="card_image">
-                        <img src="./Assets/images/card-imgs/card1.png">
+                        <img src="/public/Assets/images/card-imgs/card1.png">
+                    </div>
+                    <div class="card_desc">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, porro. Dolore, similique.
                     </div>
                     <div class="card_footer">
                         <div class="card_info">
-                            <img src="./Assets/images/logos&illustration/blogger1.png" class="blogger">
+                            <img src="/public/Assets/images/logos&illustration/blogger1.png" class="blogger">
                             <div class="blog_info">
                                 <h5>Maria Ahmed</h5>
                                 <p>Blogger</p>
                             </div>
                         </div>
-                        <div class="card_btn">
-                            <button class="full_read">Read in full</button>
+                        <div class="card_link">
+                            <a href="./public/Assets/html/full-blog.html">Read full</a>
                         </div>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card_head">
-                        <small>29 January 2025</small>
-                        <p>&hearts;</p>
+                        <div class="card_date">
+                            Posted on: <span>23 Feb 2025</span> - <span class="cat">Business</span>
+                        </div>
+                        <i class="fa-solid fa-heart"></i>
                     </div>
                     <div class="card_title">
                         The world is losing gold bars.
                     </div>
                     <div class="card_image">
-                        <img src="./Assets/images/card-imgs/card2.png">
+                        <img src="/public/Assets/images/card-imgs/card1.png">
+                    </div>
+                    <div class="card_desc">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, porro. Dolore, similique.
                     </div>
                     <div class="card_footer">
                         <div class="card_info">
-                            <img src="./Assets/images/logos&illustration/blogger1.png" class="blogger">
+                            <img src="/public/Assets/images/logos&illustration/blogger1.png" class="blogger">
                             <div class="blog_info">
                                 <h5>Maria Ahmed</h5>
                                 <p>Blogger</p>
                             </div>
                         </div>
-                        <div class="card_btn">
-                            <button class="full_read">Read in full</button>
+                        <div class="card_link">
+                            <a href="./public/Assets/html/full-blog.html">Read full</a>
                         </div>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card_head">
-                        <small>29 January 2025</small>
-                        <p>&hearts;</p>
+                        <div class="card_date">
+                            Posted on: <span>23 Feb 2025</span> - <span class="cat">Business</span>
+                        </div>
+                        <i class="fa-solid fa-heart"></i>
                     </div>
                     <div class="card_title">
                         The world is losing gold bars.
                     </div>
                     <div class="card_image">
-                        <img src="./Assets/images/card-imgs/card3.png">
+                        <img src="/public/Assets/images/card-imgs/card1.png">
+                    </div>
+                    <div class="card_desc">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, porro. Dolore, similique.
                     </div>
                     <div class="card_footer">
                         <div class="card_info">
-                            <img src="./Assets/images/logos&illustration/blogger1.png" class="blogger">
+                            <img src="/public/Assets/images/logos&illustration/blogger1.png" class="blogger">
                             <div class="blog_info">
                                 <h5>Maria Ahmed</h5>
                                 <p>Blogger</p>
                             </div>
                         </div>
-                        <div class="card_btn">
-                            <button class="full_read">Read in full</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card_head">
-                        <small>29 January 2025</small>
-                        <p>&hearts;</p>
-                    </div>
-                    <div class="card_title">
-                        The world is losing gold bars.
-                    </div>
-                    <div class="card_image">
-                        <img src="./Assets/images/card-imgs/card4.png">
-                    </div>
-                    <div class="card_footer">
-                        <div class="card_info">
-                            <img src="./Assets/images/logos&illustration/blogger1.png" class="blogger">
-                            <div class="blog_info">
-                                <h5>Maria Ahmed</h5>
-                                <p>Blogger</p>
-                            </div>
-                        </div>
-                        <div class="card_btn">
-                            <button class="full_read">Read in full</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card_head">
-                        <small>29 January 2025</small>
-                        <p>&hearts;</p>
-                    </div>
-                    <div class="card_title">
-                        The world is losing gold bars.
-                    </div>
-                    <div class="card_image">
-                        <img src="./Assets/images/card-imgs/card5.png">
-                    </div>
-                    <div class="card_footer">
-                        <div class="card_info">
-                            <img src="./Assets/images/logos&illustration/blogger1.png" class="blogger">
-                            <div class="blog_info">
-                                <h5>Maria Ahmed</h5>
-                                <p>Blogger</p>
-                            </div>
-                        </div>
-                        <div class="card_btn">
-                            <button class="full_read">Read in full</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card_head">
-                        <small>29 January 2025</small>
-                        <p>&hearts;</p>
-                    </div>
-                    <div class="card_title">
-                        The world is losing gold bars.
-                    </div>
-                    <div class="card_image">
-                        <img src="./Assets/images/card-imgs/card6.png">
-                    </div>
-                    <div class="card_footer">
-                        <div class="card_info">
-                            <img src="./Assets/images/logos&illustration/blogger1.png" class="blogger">
-                            <div class="blog_info">
-                                <h5>Maria Ahmed</h5>
-                                <p>Blogger</p>
-                            </div>
-                        </div>
-                        <div class="card_btn">
-                            <button class="full_read">Read in full</button>
+                        <div class="card_link">
+                            <a href="./public/Assets/html/full-blog.html">Read full</a>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-    </div>
+
+        <section class="pagination">
+            <button>1</button><button>2</button><button>3</button><button>4</button>
+        </section>
+    </main>
 
     <script src="./Assets/js/index.js"></script>
 </body>

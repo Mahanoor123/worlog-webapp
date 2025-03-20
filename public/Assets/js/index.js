@@ -22,10 +22,10 @@ document.addEventListener("DOMContentLoaded", function () {
 /********************* Hero Section Slider *********************/
 
 const heroImages = [
-  "./Assets/images/backgrounds/background.jpg",
-  "./Assets/images/backgrounds/background3.png",
-  "./Assets/images/backgrounds/background2.jpg",
-  "./Assets/images/backgrounds/background3.png",
+  "./public/Assets/images/backgrounds/background.jpg",
+  "./public/Assets/images/backgrounds/background3.png",
+  "./public/Assets/images/backgrounds/background2.jpg",
+  "./public/Assets/images/backgrounds/background3.png",
 ];
 
 let currentIdx = 0;
@@ -51,11 +51,11 @@ function leftArrow() {
 /********************* Hero Section Button Navigation *********************/
 
 document.querySelector(".write_blog").addEventListener("click", ()=>{
-  window.location.replace('./Assets/html/add-blog.html')
+  window.location.replace('./public/Assets/html/add-blog.html')
 })
 
 document.querySelector(".explore_btn").addEventListener("click", ()=>{
-  window.location.replace('./Assets/html/blogs.html')
+  window.location.replace('./public/Assets/html/blogs.html')
 })
 
 

@@ -278,7 +278,7 @@ main {
   margin-right: 0.7rem;
 }
 
-/*************** Latest Blogs Section *****************/
+/*************** All Blogs Categories *****************/
 
 .blogs_category {
   margin: 6rem 0;
@@ -563,4 +563,26 @@ main {
       rgba(0, 0, 2, 1) 100%
     );
   }
+}
+
+/*************** Footer Section *****************/
+
+
+footer{
+  background-color: var(--black-tint1);
+  padding: 2rem 6rem;
+}
+.sub_footer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--black-tint4);
+
+}
+.sub_footer img{
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
 }
