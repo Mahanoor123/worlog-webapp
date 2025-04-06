@@ -11,23 +11,35 @@
 
 <body>
     <!---------------------- Navbar ---------------------->
+    <!---------------------- Navbar ---------------------->
+    <!---------------------- Navbar ---------------------->
+
     <nav class="navbar">
-    <div class="social_icons">
-    <i class="fa-brands fa-facebook-f"></i>
-    <i class="fa-brands fa-instagram"></i>
-    <i class="fa-brands fa-pinterest-p"></i>
-    </div>
-    <div class="logo">WorLog</div>
-    <div class="navlinks">
-    <a href="#" class="wishlist"><i class="fa-solid fa-heart"></i> <span id="fvrt-count">0</span></a>
-    <a href="/public/Assets/html/profile.html" class="profile"><i class="fa-solid fa-user"></i></a>
-    <a href="/public/Assets/html/login.html" class="login_btn">Login</a></li>
-    </div>
+        <div class="social_icons">
+            <i class="fa-brands fa-facebook-f"></i>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-pinterest-p"></i>
+        </div>
+        <div class="logo">
+            <img src="/public/Assets/images/logos&illustration/worlog-logo.png">
+        </div>
+        <div class="navlinks">
+            <a href="#" class="wishlist"><i class="fa-solid fa-heart"></i> <span id="fvrt-count">0</span></a>
+            <img src="" alt="" class="profile">
+            <div class="profile_popup">
+                <button class="view_profile">View Profile</button>
+                <hr>
+                <button class="logOut">Logout</button>
+            </div>
+        </div>
     </nav>
 
     <!---------------------- Create Blog ---------------------->
+    <!---------------------- Create Blog ---------------------->
+    <!---------------------- Create Blog ---------------------->
 
     <main>
+        <div class="error_popup"></div>
         <section class="create_header">
             <div class="create_blog">
                 <div class="blog_header">
@@ -54,31 +66,30 @@
                                     <option value="Travelling">Travelling</option>
                                     <option value="Education">Education</option>
                                     <option value="Entertainment">Entertainment</option>
+                                    <option value="Meal">Food & Diet</option>
+                                    <option value="Media">Media & Marketing</option>
+                                    <option value="fashion">Fashion & Trends</option>
+                                    <option value="money">Money & Finances</option>
                                 </select>
                             </div>
                             <div class="blog_tags">
-                                <input type="text" placeholder="Important tags (Comma separated)">
+                                <input type="text" placeholder="Keywords (Comma separated)">
                             </div>
                         </div>
-
                         <div class="blog_media">
                             <h4><i class="fas fa-edit"></i> Blog Content & Media</h4>
                             <div class="blog_content">
                                 <div class="editor-toolbar">
-                                    <button type="button" onclick="formatText('bold')"><i
-                                            class="fas fa-bold"></i></button>
-                                    <button type="button" onclick="formatText('italic')"><i
-                                            class="fas fa-italic"></i></button>
-                                    <button type="button" onclick="formatText('underline')"><i
-                                            class="fas fa-underline"></i></button>
-                                    <button type="button" onclick="formatText('justifyLeft')"><i
-                                            class="fas fa-align-left"></i></button>
-                                    <button type="button" onclick="formatText('justifyCenter')"><i
-                                            class="fas fa-align-center"></i></button>
-                                    <button type="button" onclick="formatText('justifyRight')"><i
-                                            class="fas fa-align-right"></i></button>
+                                    <button type="button" onclick="toggleFormat('bold')" id="boldBtn"><b>B</b></button>
+                                    <button type="button" onclick="toggleFormat('italic')" id="italicBtn"><i>I</i></button>
+                                    <button type="button" onclick="toggleFormat('underline')" id="underlineBtn"><u>U</u></button>
+                                    <button type="button" onclick="toggleHeading('H2')" id="h2Btn">H1</button>
+                                    <button type="button" onclick="toggleHeading('H1')" id="h1Btn">h2</button>
+                                    <button type="button" onclick="toggleHeading('P')" id="pBtn">P</button>
+                                    <button type="button" onclick="insertBullet()"><i class="fas fa-list"></i></button>
                                 </div>
-                                <div contenteditable="true" id="richTextEditor" class="editor" aria-placeholder="Enter blog content">
+                                <div contenteditable="true" id="richTextEditor" class="editor"
+                                    aria-placeholder="Enter blog content">
                                 </div>
                             </div>
                             <div class="blog_summary">
@@ -87,40 +98,47 @@
                             <div class="blog_images">
                                 <label class="file_upload">
                                     <i class="fas fa-image"></i> Upload Blog Cover
-                                    <input type="file">
+                                    <input type="file" id="blogImageInput" accept="image/*">
                                 </label>
                                 <label class="file_upload">
                                     <i class="fas fa-images"></i> Upload Additional Image
-                                    <input type="file">
+                                    <input type="file" id="additionalImagesInput" multiple accept="image/*">
                                 </label>
                             </div>
                         </div>
-
-                        <div class="author_info">
-                            <h4><i class="fas fa-user"></i> Author Information</h4>
-                            <div class="author_name">
-                                <input type="text" placeholder="Author name">
-                                <label class="file_upload">
-                                    <i class="fas fa-user-circle"></i> Upload Author Image
-                                    <input type="file">
-                                </label>
-                            </div>
-                        </div>
-
                         <div class="status_controls">
                             <h4><i class="fas fa-clock"></i> Additional Info</h4>
                             <input type="text" placeholder="Estimated Reading Time">
                             <input type="text" placeholder="Reading URL (optional)">
-                            <input type="text" placeholder="Important Keywords">
+                            <input type="text" placeholder="Important tags">
                         </div>
-
-                        <button class="primary_btn">Publish</button>
+                        <button class="primary_btn" type="submit">Publish</button>
                     </form>
                 </div>
             </div>
         </section>
     </main>
-<script src="../js/add-blog.js"></script>
+
+    <!---------------------- Footer ---------------------->
+    <!---------------------- Footer ---------------------->
+    <!---------------------- Footer ---------------------->
+
+    <footer>
+        <div class="sub_footer">
+            <h4>This blog developed by:</h4>
+            <span>Mahanoor khan</span>
+            <img src="/public/Assets/images/logos&illustration/my_logo.png" alt="">
+            <div class="creater_socials">
+                <i class="fa-solid fa-facebook-f"></i>
+                <i class="fa-solid fa-search"></i>
+                <i class="fa-solid fa-search"></i>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="../js/add-blog.js"></script>
+    <script src="../js/editor.js"></script>
+
 </body>
 
 </html>

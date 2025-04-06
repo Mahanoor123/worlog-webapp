@@ -17,11 +17,14 @@
             <i class="fa-brands fa-instagram"></i>
             <i class="fa-brands fa-pinterest-p"></i>
         </div>
-        <div class="logo">WorLog</div>
-        <div class="navlinks">
-            <a href="#" class="wishlist"><i class="fa-solid fa-heart"></i> <span id="fvrt-count">0</span></a>
-            <a href="./Assets/html/profile.html" class="profile"><i class="fa-solid fa-user"></i></a>
-            <a href="./Assets/html/login.html" class="login_btn">Login</a></li>
+        <div class="logo">
+            <img src="../images/logos&illustration/worlog-logo.png">
+        </div>
+        <div class="navlinks2">
+            <a href="/index.html">Home</a>
+            <a href="./blogs.html">Blogs</a>
+            <a href="./about.html">About</a>
+            <a href="#">Faqs</a>
         </div>
     </nav>
 
@@ -29,7 +32,7 @@
 
     <section class="profile_form">
         <form id="editProfileForm">
-          <label>Username:</label>
+            <label>Username:</label>
             <input type="text" id="username" required />
 
             <label>Email:</label>
@@ -65,26 +68,29 @@
                         class="fa-solid fa-bell"></i>Notifications</button>
                 <button class="tab-link" data-target="badges"><i class="fa-solid fa-certificate"></i>My badges</button>
                 <button class="tab-link" data-target="settings"><i class="fa-solid fa-gear"></i>Settings</button>
-                <button class="tab-link" data-target="logout"><i
+                <button class="tab-link" data-target="logout" id="logoutUser"><i
                         class="fa-solid fa-arrow-right-from-bracket"></i>Logout</button>
             </aside>
 
-
             <div class="main">
                 <div id="profile" class="tab-content active">
-                    <img src="../images/logos&illustration/user-profile.jpg" class="user_pic">
-                    <h5 class="user_name">John Doe</h5>
-                    <p class="user_email">johndoe@gmail.com</p>
+                    <div class="user_image">
+                        <img src="../images/logos&illustration/user.png" class="user_pic" id="profileImage">
+                        <div class="upload-icon" id="uploadIcon">
+                            <i class="fa-solid fa-camera"></i>
+                        </div>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*">
+                    <h5 class="user_name"></h5>
+                    <p class="user_email"></p>
+                    <p class="user_country"></p>
+                    <p class="user_bio"></p>
+                    <p class="user_gender"></p>
                     <button class="edit_profile_btn"><i class="fa-solid fa-pen"></i> Edit Profile</button>
                 </div>
                 <div id="blogs" class="tab-content">
                     <h2>My Blogs</h2>
                     <p>You have no blogs yet...</p>
-                    <!-- <button class="write_blog"><i class="fa-solid fa-pencil"></i>Write blog</button> -->
-                </div>
-                <div id="favorites" class="tab-content">
-                    <h2>My Favorites</h2>
-                    <p>You have no favorites blog yet......</p>
                 </div>
                 <div id="favorites" class="tab-content">
                     <h2>My Favorites</h2>
@@ -100,7 +106,38 @@
                 </div>
                 <div id="settings" class="tab-content">
                     <h2>Settings</h2>
-                    <p>Settings options go here...</p>
+                    <div class="setting_options">
+                        <div class="change-password-section">
+                            <h4>Update Password</h4>
+                            <div class="field">
+                                <i class="fa-solid fa-lock"></i>
+                                <input type="password" id="current-password" placeholder="Current Password">
+                            </div>
+                            <div class="field">
+                                <i class="fa-solid fa-lock"></i>
+                                <input type="password" id="new-password" placeholder="New Password">
+                            </div>
+                            <div class="field">
+                                <i class="fa-solid fa-lock"></i>
+                                <input type="password" id="confirm-password" placeholder="Confirm New Password">
+                            </div>
+                            <button id="change_password_btn"><i class="fa-solid fa-pen"></i>Update Password</button>
+                        </div>
+
+                        <div class="change-email-section">
+                            <h4>Update Email</h4>
+                            <div class="field">
+                                <input type="password" id="current_password" placeholder="Current Password">
+                            </div>
+                            <div class="field">
+                                <input type="email" id="new_email" placeholder="New Email">
+                            </div>
+                            <button id="update_email_btn"><i class="fa-solid fa-pen"></i>Update Email</button>
+                        </div>
+                    </div>
+                    <div class="delete_account">
+                        <button class="deleteAccount"><i class="fa-solid fa-trash"></i>Delete Account</button>
+                    </div>
                 </div>
                 <div id="logout" class="tab-content">
                     <h2>Logout</h2>
@@ -109,6 +146,19 @@
             </div>
         </div>
     </main>
+
+    <footer>
+        <div class="sub_footer">
+            <h4>This blog developed by:</h4>
+            <span>Mahanoor khan</span>
+            <img src="/public/Assets/images/logos&illustration/my_logo.png" alt="">
+            <div class="creater_socials">
+                <i class="fa-solid fa-facebook-f"></i>
+                <i class="fa-solid fa-search"></i>
+                <i class="fa-solid fa-search"></i>
+            </div>
+        </div>
+    </footer>
 
     <script type="module" src="../js/profile.js"></script>
 </body>

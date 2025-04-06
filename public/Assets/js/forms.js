@@ -25,7 +25,6 @@ const showPopup = (message, type = "info") => {
   popup.innerHTML = `
     <div class="popup-content">
       <p>${message}</p>
-      <button class="close-popup">OK</button>
     </div>
     `;
 
@@ -204,8 +203,7 @@ const userLogin = async (e) => {
 
     if (user) {
       if (user.emailVerified) {
-        showPopup("Login Successful");
-
+        showPopup("Login Successful! ✅");
         setTimeout(() => {
           window.location.pathname = "./index.html";
         }, 2000);
@@ -253,7 +251,7 @@ const _fPassword = async () => {
   let userEmail = document.querySelector("#userEmail")?.value.trim();
 
   if (!userEmail || !userEmail.includes("@") || !userEmail.includes(".")) {
-    showPopup("Please enter a valid email.");
+    showPopup("Please enter a valid email.", "error");
     return;
   }
 
@@ -265,7 +263,7 @@ const _fPassword = async () => {
     }, 2000);
   } catch (error) {
     console.error("Error:", error.message);
-    showPopup("Something went wrong. Please try again.");
+    showPopup("Something went wrong. Please try again.", "error");
   }
 };
 

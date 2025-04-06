@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   fetchSignInMethodsForEmail,
+  updateEmail,
   updatePassword,
   updateProfile,
   GoogleAuthProvider,
@@ -11,7 +12,11 @@ import {
   signOut,
   sendPasswordResetEmail,
   sendEmailVerification,
-  onAuthStateChanged
+  onAuthStateChanged,
+  EmailAuthProvider,
+  deleteUser,
+  reauthenticateWithCredential,
+  sendSignInLinkToEmail
 } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
 
 import {
@@ -31,6 +36,7 @@ import {
   deleteDoc,
   arrayUnion,
   arrayRemove,
+  limit,
 } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -75,4 +81,10 @@ export {
   deleteDoc,
   arrayUnion,
   arrayRemove,
+  EmailAuthProvider,
+  deleteUser,
+  reauthenticateWithCredential,
+  updateEmail,
+  sendSignInLinkToEmail,
+  limit
 };

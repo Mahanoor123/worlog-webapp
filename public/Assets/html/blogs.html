@@ -5,23 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="/public/Assets/css/blogs.css">
+    <link rel="stylesheet" href="../css/blogs.css">
     <title>All blogs</title>
 </head>
 
 <body>
     <!---------------------- Navbar ---------------------->
+    <!---------------------- Navbar ---------------------->
+    <!---------------------- Navbar ---------------------->
+
     <nav class="navbar">
         <div class="social_icons">
             <i class="fa-brands fa-facebook-f"></i>
             <i class="fa-brands fa-instagram"></i>
             <i class="fa-brands fa-pinterest-p"></i>
         </div>
-        <div class="logo">WorLog</div>
+        <div class="logo">
+            <img src="../images/logos&illustration/worlog-logo.png">
+        </div>
         <div class="navlinks">
             <a href="#" class="wishlist"><i class="fa-solid fa-heart"></i> <span id="fvrt-count">0</span></a>
-            <a href="/public/Assets/html/profile.html" class="profile"><i class="fa-solid fa-user"></i></a>
-            <a href="/public/Assets/html/login.html" class="login_btn">Login</a></li>
+            <img src="" alt="" class="profile">
+            <div class="profile_popup">
+                <button class="view_profile">View Profile</button>
+                <hr>
+                <button class="logOut">Logout</button>
+            </div>
+            <a href="./public/Assets/html/login.html" class="login_btn">Login</a></li>
         </div>
     </nav>
     <!-- Mobile Menu Icon -->
@@ -31,13 +41,13 @@
     </div>
     <nav class="navbar2">
         <div class="searchbar">
-            <input type="text" placeholder="Search">
+            <input type="text" placeholder="Search" id="searchInput">
             <i class="fa-solid fa-search"></i>
         </div>
         <div class="navlinks2">
-            <a href="/index.html">Home</a>
-            <a href="/blogs.html">Blogs</a>
-            <a href="/public/Assets/html/about.html">About</a>
+            <a href="./index.html">Home</a>
+            <a href="./public/Assets/html/blogs.html">Blogs</a>
+            <a href="./public/Assets/html/about.html">About</a>
             <a href="#">Faqs</a>
         </div>
     </nav>
@@ -45,127 +55,58 @@
 
     <!---------------------- All Blogs Section ---------------------->
     <main>
+        <div id="modernLoader" class="modern-loader hidden">
+            <div class="brightness-spinner">
+                <i class="fa-solid fa-spinner"></i>
+            </div>
+        </div>
+
         <section class="blogs_category">
             <h2>The World's Top Topics</h2>
             <div class="categories">
-                <a href="#" class="business_cat">Most Popular</a>
-                <a href="#" class="business_cat">Business</a>
-                <a href="#" class="business_cat">Technology</a>
-                <a href="#" class="business_cat">Meal</a>
-                <a href="#" class="business_cat">Travelling</a>
-                <a href="#" class="business_cat">Education</a>
-                <a href="#" class="business_cat">Entertainment</a>
+                <a href="#" class="categorySelect active"><i class="fas fa-globe"></i> All</a>
+                <a href="#" class="categorySelect"><i class="fas fa-fire"></i> Most Popular</a>
+                <a href="#" class="categorySelect"><i class="fas fa-microchip"></i> Technology</a>
+                <a href="#" class="categorySelect"><i class="fas fa-briefcase"></i> Business</a>
+                <a href="#" class="categorySelect"><i class="fas fa-plane-departure"></i> Travelling</a>
+                <a href="#" class="categorySelect"><i class="fas fa-graduation-cap"></i> Education</a>
+                <a href="#" class="categorySelect"><i class="fas fa-film"></i> Entertainment</a>
+                <a href="#" class="categorySelect"><i class="fas fa-utensils"></i> Food & Diet</a>
+                <a href="#" class="categorySelect"><i class="fas fa-bullhorn"></i> Media & Marketing</a>
+                <a href="#" class="categorySelect"><i class="fas fa-tshirt"></i> Fashion & Trends</a>
+                <a href="#" class="categorySelect"><i class="fas fa-coins"></i> Money & Finances</a>
             </div>
         </section>
-
-        <!-- <section class="blog_search"> -->
-            <!-- <div class="searchbar"> -->
-                <!-- <input type="text" placeholder="Search"> -->
-                <!-- <i class="fa-solid fa-search"></i> -->
-            <!-- </div> -->
-            <!-- <di class="blog_sorting"> -->
-                <!-- <h5>Sorting</h5> -->
-            <!-- </di> -->
-        <!-- </section> -->
 
         <section class="cards_container">
-            <div class="cards_display">
-                <div class="card">
-                    <div class="card_head">
-                        <div class="card_date">
-                            Posted on: <span>23 Feb 2025</span> - <span class="cat">Business</span>
-                        </div>
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                    <div class="card_title">
-                        The world is losing gold bars.
-                    </div>
-                    <div class="card_image">
-                        <img src="/public/Assets/images/card-imgs/card1.png">
-                    </div>
-                    <div class="card_desc">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, porro. Dolore, similique.
-                    </div>
-                    <div class="card_footer">
-                        <div class="card_info">
-                            <img src="/public/Assets/images/logos&illustration/blogger1.png" class="blogger">
-                            <div class="blog_info">
-                                <h5>Maria Ahmed</h5>
-                                <p>Blogger</p>
-                            </div>
-                        </div>
-                        <div class="card_link">
-                            <a href="./public/Assets/html/full-blog.html">Read full</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card_head">
-                        <div class="card_date">
-                            Posted on: <span>23 Feb 2025</span> - <span class="cat">Business</span>
-                        </div>
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                    <div class="card_title">
-                        The world is losing gold bars.
-                    </div>
-                    <div class="card_image">
-                        <img src="/public/Assets/images/card-imgs/card1.png">
-                    </div>
-                    <div class="card_desc">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, porro. Dolore, similique.
-                    </div>
-                    <div class="card_footer">
-                        <div class="card_info">
-                            <img src="/public/Assets/images/logos&illustration/blogger1.png" class="blogger">
-                            <div class="blog_info">
-                                <h5>Maria Ahmed</h5>
-                                <p>Blogger</p>
-                            </div>
-                        </div>
-                        <div class="card_link">
-                            <a href="./public/Assets/html/full-blog.html">Read full</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card_head">
-                        <div class="card_date">
-                            Posted on: <span>23 Feb 2025</span> - <span class="cat">Business</span>
-                        </div>
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                    <div class="card_title">
-                        The world is losing gold bars.
-                    </div>
-                    <div class="card_image">
-                        <img src="/public/Assets/images/card-imgs/card1.png">
-                    </div>
-                    <div class="card_desc">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, porro. Dolore, similique.
-                    </div>
-                    <div class="card_footer">
-                        <div class="card_info">
-                            <img src="/public/Assets/images/logos&illustration/blogger1.png" class="blogger">
-                            <div class="blog_info">
-                                <h5>Maria Ahmed</h5>
-                                <p>Blogger</p>
-                            </div>
-                        </div>
-                        <div class="card_link">
-                            <a href="./public/Assets/html/full-blog.html">Read full</a>
-                        </div>
-                    </div>
-                </div>
+            <div class="cards_display" id="blogs_container">
+                <!---------------------- Blog cards appear ---------------------->
             </div>
         </section>
 
-        <section class="pagination">
-            <button>1</button><button>2</button><button>3</button><button>4</button>
+        <section class="pagination" id="paginationContainer">
+            <!---------------------- Paginated cards appear ---------------------->
         </section>
     </main>
 
-    <script src="./Assets/js/index.js"></script>
+    <!---------------------- Footer ---------------------->
+    <!---------------------- Footer ---------------------->
+    <!---------------------- Footer ---------------------->
+
+    <footer>
+        <div class="sub_footer">
+            <h4>This blog developed by:</h4>
+            <span>Mahanoor khan</span>
+            <img src="/public/Assets/images/logos&illustration/my_logo.png" alt="">
+            <div class="creater_socials">
+                <i class="fa-solid fa-facebook-f"></i>
+                <i class="fa-solid fa-search"></i>
+                <i class="fa-solid fa-search"></i>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="../js/blogs.js"></script>
 </body>
 
 </html>

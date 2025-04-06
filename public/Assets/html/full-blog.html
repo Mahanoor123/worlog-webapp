@@ -11,96 +11,44 @@
 
 <body>
     <!---------------------- Navbar ---------------------->
+    <!---------------------- Navbar ---------------------->
+    <!---------------------- Navbar ---------------------->
+
     <nav class="navbar">
         <div class="social_icons">
             <i class="fa-brands fa-facebook-f"></i>
             <i class="fa-brands fa-instagram"></i>
             <i class="fa-brands fa-pinterest-p"></i>
         </div>
-        <div class="logo">WorLog</div>
+        <div class="logo">
+            <img src="/public/Assets/images/logos&illustration/worlog-logo.png">
+        </div>
         <div class="navlinks">
             <a href="#" class="wishlist"><i class="fa-solid fa-heart"></i> <span id="fvrt-count">0</span></a>
-            <a href="/public/Assets/html/profile.html" class="profile"><i class="fa-solid fa-user"></i></a>
-            <a href="/public/Assets/html/login.html" class="login_btn">Login</a></li>
+            <img src="" alt="" class="profile">
+            <div class="profile_popup">
+                <button class="view_profile">View Profile</button>
+                <hr>
+                <button class="logOut">Logout</button>
+            </div>
+            <a href="./public/Assets/html/login.html" class="login_btn">Login</a></li>
         </div>
     </nav>
 
     <!---------------------- Full View Blog ---------------------->
+    <!---------------------- Full View Blog ---------------------->
+    <!---------------------- Full View Blog ---------------------->
+
 
     <main>
+        <div id="modernLoader" class="modern-loader hidden">
+            <div class="brightness-spinner">
+                <i class="fa-solid fa-spinner"></i>
+            </div>
+        </div>
+        
         <section class="blog-container">
-            <a href="#" class="back"><i class="fa-solid fa-less-than"></i>Back</a>
-            <!-- Blog Header -->
-            <header class="blog-header">
-                <h1 class="blog-title">The Art of Web Development</h1>
-                <div class="blog-meta">
-                    <div class="author_info">
-                        <img src="../images/logos&illustration/blogger1.png" alt="Author" class="author-img">
-                        <span class="author-name">John Doe |</span>
-                        <div class="blog_detail">
-                            <span class="post-time">Published on March 8, 2025</span>
-                            <span class="post-read"> - 5 min read</span>
-                        </div>
-                    </div>
-                    <div class="actions">
-                        <i class="fas fa-bookmark"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Cover Image -->
-            <div class="blog-cover">
-                <img src="../images/card-imgs/card1.png" alt="Blog Cover">
-            </div>
-
-            <!-- Blog Content -->
-            <div class="blog-content">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus eros aliquet convallis
-                    ultricies...</p>
-                <h4>Why Web Development Matters?</h4>
-                <div class="content_image">
-                    <img src="../images/card-imgs/card3.png" alt="Content Image">
-                </div>
-                <h4>Web Development is not just a field</h4>
-                <p>Web development is crucial for creating dynamic, user-friendly websites..</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem fugit reprehenderit, quos
-                    voluptatum soluta ipsam quia tempora voluptate aliquam impedit. Facere, consectetur minima,
-                    voluptatum officia reprehenderit libero sint velit commodi blanditiis autem distinctio voluptates
-                    animi, deleniti reiciendis asperiores exercitationem quia eius quod! Esse accusantium unde, veniam,
-                    iusto praesentium vel similique sequi harum dolorem perferendis ullam itaque provident odit.
-                    Laboriosam velit eligendi commodi eaque. Maxime aliquam nemo quod porro sapiente?</p>
-                <div class="content_image">
-                    <img src="../images/card-imgs/card3.png" alt="Content Image">
-                </div>
-                <p>Web development is crucial for creating dynamic, user-friendly websites..</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque autem fugit reprehenderit, quos
-                    voluptatum soluta ipsam quia tempora voluptate aliquam impedit. Facere, consectetur minima,
-                    voluptatum officia reprehenderit libero sint velit commodi blanditiis autem distinctio voluptates
-                    animi, deleniti reiciendis asperiores exercitationem quia eius quod! Esse accusantium unde, veniam,
-                    iusto praesentium vel similique sequi harum dolorem perferendis ullam itaque provident odit.
-                    Laboriosam velit eligendi commodi eaque. Maxime aliquam nemo quod porro sapiente?</p>
-            </div>
-
-            <!-- Engagement Section -->
-            <div class="engagement">
-                <button class="like-btn"><i class="fa-solid fa-hands-clapping"></i> </button>
-                <button class="rate-btn"><i class="fa-solid fa-comment"></i></button>
-                <button class="share-btn"><i class="fas fa-share-alt"></i></button>
-            </div>
-
-            <!-- Comments Section -->
-            <div class="comments">
-                <h3>Comments</h3>
-                <div class="comment-box">
-                    <input type="text" placeholder="Write a comment...">
-                    <button>Post</button>
-                </div>
-                <div class="comment">
-                    <img src="../images/logos&illustration/blogger1.png" alt="User">
-                    <p><strong>Jane Doe</strong>: This article is amazing! Very insightful.</p>
-                </div>
-            </div>
+            <!-- Full Blog View will appear here -->
         </section>
 
         <!---------------------- More From Author ---------------------->
@@ -164,7 +112,24 @@
             </div>
         </section>
     </main>
-    <script src="../js/add-blog.js"></script>
+
+    <!---------------------- Footer ---------------------->
+    <!---------------------- Footer ---------------------->
+    <!---------------------- Footer ---------------------->
+
+    <footer>
+        <div class="sub_footer">
+            <h4>This blog developed by:</h4>
+            <span>Mahanoor khan</span>
+            <img src="/public/Assets/images/logos&illustration/my_logo.png" alt="">
+            <div class="creater_socials">
+                <i class="fa-solid fa-facebook-f"></i>
+                <i class="fa-solid fa-search"></i>
+                <i class="fa-solid fa-search"></i>
+            </div>
+        </div>
+    </footer>
+    <script type="module" src="../js/view-blog.js"></script>
 </body>
 
 </html>
