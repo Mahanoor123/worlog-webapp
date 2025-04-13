@@ -35,6 +35,48 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+/********************* Utility: Toaster *********************/
+
+function showToast(message, type = "info", options = {}) {
+  const {
+    duration = 4000,
+    position = "center"
+  } = options;
+
+  const containerId = `toast-container-${position}`;
+  let toastContainer = document.getElementById(containerId);
+
+  if (!toastContainer) {
+    toastContainer = document.createElement("div");
+    toastContainer.id = containerId;
+    toastContainer.className = `toast-container ${position}`;
+    document.body.appendChild(toastContainer);
+  }
+
+  const toast = document.createElement("div");
+  toast.classList.add("toast", `toast-${type}`);
+  toast.innerHTML = `
+    <span class="toast-icon">${getIcon(type)}</span>
+    <span class="toast-message">${message}</span>
+    <span class="toast-close" onclick="this.parentElement.remove()">×</span>
+    <div class="toast-progress" style="animation-duration:${duration}ms"></div>
+  `;
+
+  toastContainer.appendChild(toast);
+
+  setTimeout(() => toast.remove(), duration);
+}
+
+function getIcon(type) {
+  switch (type) {
+    case "success": return "✅";
+    case "error": return "❌";
+    case "warning": return "⚠️";
+    case "info": default: return "ℹ️";
+  }
+}
+
+
 /********************* Handling User Authentication & Profile *********************/
 /********************* Handling User Authentication & Profile *********************/
 /********************* Handling User Authentication & Profile *********************/
@@ -48,7 +90,12 @@ const writeBlogButton = document.querySelectorAll(".write_blog");
 
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    console.log("User Logged In", user.uid);
+    const isVerified = user.emailVerified;
+    console.log("User Logged In:", user.uid, "Verified:", isVerified);
+
+    localStorage.setItem("isAuthenticated", "true");
+    localStorage.setItem("isEmailVerified", isVerified);
+    localStorage.setItem("currentUserId", user.uid);
 
     if (loginButton) loginButton.style.display = "none";
     if (signupButton) signupButton.style.display = "none";
@@ -61,9 +108,21 @@ onAuthStateChanged(auth, async (user) => {
       const userData = userSnap.data();
       profilePic.src =
         userData.profileImage ||
-        "/public/Assets/images/logos&illustration/user.png";
+        "../images/logos&illustration/user.png";
+
+        if (isVerified) {
+          showToast(`Welcome back! ${userData.username} to WORLOG.`, "info", {
+            duration: 4000
+          });
+        } else {
+          showToast("Please verify your email to unlock full features!", "warning", {
+            duration: 5000
+          });
+        }
     }
+    
   } else {
+    localStorage.clear();
     if (loginButton) loginButton.style.display = "flex";
     if (signupButton) signupButton.style.display = "flex";
     if (profilePic) profilePic.style.display = "none";
@@ -75,11 +134,19 @@ const openProfilePopoup = () => {
 };
 
 profilePic.addEventListener("click", (e) => {
+  if (!isUserVerified()) {
+    showToast("Please verify your email to access your profile.", "warning");
+    return;
+  }
   e.stopPropagation();
   openProfilePopoup();
 });
 
 document.querySelector(".view_profile").addEventListener("click", () => {
+  if (!isUserVerified()) {
+    showToast("Please verify your email to access your profile.", "warning");
+    return;
+  };
   window.location.replace("./public/Assets/html/profile.html");
 });
 
@@ -95,6 +162,7 @@ const signOutUser = async () => {
     if (confirmLogout) {
       await signOut(auth);
       profilePopup.style.display = "none";
+      window.location.href = "/";
     }
   } catch (error) {
     console.error("Logout Error:", error.message);
@@ -103,13 +171,41 @@ const signOutUser = async () => {
 
 document.querySelector(".logOut").addEventListener("click", signOutUser);
 
+/*********************  User Email Verification *********************/
+
+function isUserVerified() {
+  return (
+    localStorage.getItem("isAuthenticated") === "true" &&
+    localStorage.getItem("isEmailVerified") === "true"
+  );
+}
+
 /*********************  Button Navigation *********************/
 /*********************  Button Navigation *********************/
 /*********************  Button Navigation *********************/
 
 writeBlogButton.forEach((button) => {
   button.addEventListener("click", () => {
-    onAuthStateChanged(auth, async (user) => {
+    if (!isUserVerified()) {
+      const userConfirmed = confirm(
+        "You need to verify your email to write a blog. Go to email inbox and confirm verification link. Want to resend verification email?"
+      );
+
+      if (auth.currentUser && userConfirmed) {
+        sendEmailVerification(auth.currentUser)
+          .then(() => {
+            showToast("Verification email resent. Check your inbox!", "info");
+          })
+          .catch((err) => {
+            showToast("Error resending email.", "error");
+          });
+      }
+
+      return;
+    }
+
+    window.location.href = "./public/Assets/html/add-blog.html";
+   /*  onAuthStateChanged(auth, async (user) => {
       if (user) {
         console.log("User is authenticated:", user);
         window.location.href = "./public/Assets/html/add-blog.html";
@@ -121,7 +217,7 @@ writeBlogButton.forEach((button) => {
           window.location.href = "./public/Assets/html/signup.html";
         }
       }
-    });
+    }); */
   });
 });
 
@@ -142,6 +238,7 @@ const showModernLoader = () =>
   document.getElementById("modernLoader").classList.remove("hidden");
 const hideModernLoader = () =>
   document.getElementById("modernLoader").classList.add("hidden");
+
 
 /********************* Hero Section Slider *********************/
 /********************* Hero Section Slider *********************/
@@ -233,7 +330,7 @@ categoryLinks.forEach((link) => {
     if (category === "All") {
       blogs = await fetchLatestBlogs();
     } else {
-      blogs = await getBlogsByCategory(category); 
+      blogs = await getBlogsByCategory(category);
     }
 
     displayBlogs(blogs);
@@ -247,14 +344,14 @@ let currentDisplayedBlogs = [];
 searchInput.addEventListener("input", (e) => {
   const term = e.target.value.trim().toLowerCase();
 
-  const filteredBlogs = currentDisplayedBlogs.filter((blog) =>
-    blog.title?.toLowerCase().includes(term) ||
-    blog.summary?.toLowerCase().includes(term)
+  const filteredBlogs = currentDisplayedBlogs.filter(
+    (blog) =>
+      blog.title?.toLowerCase().includes(term) ||
+      blog.summary?.toLowerCase().includes(term)
   );
 
   displayBlogs(filteredBlogs);
 });
-
 
 /********************* Feed data in cards *********************/
 /********************* Feed data in cards *********************/
@@ -264,7 +361,7 @@ const fetchLatestBlogs = async () => {
   try {
     showModernLoader();
     const blogsRef = collection(db, "blogs");
-    const q = query(blogsRef, orderBy("createdAt", "desc"), limit(10));
+    const q = query(blogsRef, orderBy("createdAt", "desc"), limit(12));
     const querySnapshot = await getDocs(q);
 
     const blogs = querySnapshot.docs.map((doc) => ({
@@ -273,6 +370,9 @@ const fetchLatestBlogs = async () => {
     }));
 
     hideModernLoader();
+    showToast("Welcome to WorLog, Login to get premium features", "info", {
+      duration: 3000
+    });
     return blogs;
   } catch (error) {
     console.error("Error fetching blogs:", error);
@@ -293,15 +393,17 @@ const displayBlogs = (blogs) => {
 
     blogCard.innerHTML = `
         <div class="card_date">
-        Posted on: <span>${date}</span> - <span class="cat">${
-      blog.category || "Uncategorized"
+        <p>Posted on:</p>
+        <span>${date}</span>
+        <span class="cat">${
+        blog.category || "Uncategorized"
     }</span>
       </div>
         <div class="card_title">
-          ${blog.title}
+          ${blog.title.substring(0, 40)}...
         </div>
         <div class="card_desc">
-          ${blog.summary || blog.content.substring(0, 100)}...
+          ${blog.summary.substring(0, 100) || blog.content.substring(0, 100)}...
         </div>
         <div class="card_image">
           <img src="${
@@ -309,13 +411,16 @@ const displayBlogs = (blogs) => {
           }">
         </div>
         <div class="card_link">
-          <button class="blog_btn" data-id="${doc.id}")">Read full</button>
+          <div class="blog_info">
+            <img class="author-image" src="${blog.author.profileImage}">
+            <p class="author-name">${blog.author.name}</p>
+          </div>
+          <button class="blog_btn" data-id="${blog.id}")">Read full</button>
         </div>
       `;
-  latestContainer.appendChild(blogCard);
-
+    latestContainer.appendChild(blogCard);
   });
-  
+
   addExpandFunctionality();
   attachReadFullEvents();
 };
@@ -339,9 +444,11 @@ const attachReadFullEvents = () => {
   document.querySelectorAll(".blog_btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const blogId = e.target.getAttribute("data-id");
+      console.log(blogId);
+
       if (blogId) {
         localStorage.setItem("selectedBlogId", blogId);
-        window.location.href = "../html/full-blog.html";
+        window.location.href = "./public/Assets/html/full-blog.html";
       }
     });
   });
@@ -349,6 +456,5 @@ const attachReadFullEvents = () => {
 
 window.addEventListener("DOMContentLoaded", async () => {
   currentDisplayedBlogs = await fetchLatestBlogs();
-displayBlogs(currentDisplayedBlogs);
-
+  displayBlogs(currentDisplayedBlogs);
 });

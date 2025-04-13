@@ -8,31 +8,58 @@ import {
   getDoc,
   signOut,
   serverTimestamp,
+  updateDoc,
+  setDoc,
 } from "../js/firebase.config.js";
 
-/****************************************************/
-/*************** Popup Mesage ***************/
-/****************************************************/
+/********************* Utility: Toaster *********************/
 
-let popupBox = document.querySelector(".error_popup");
+function showToast(message, type = "info", options = {}) {
+  const { duration = 4000, position = "center" } = options;
 
-const showPopup = (message, type = "info") => {
-  let popup = document.createElement("div");
-  popup.className = `popup${type}`;
-  popup.innerHTML = `
-    <div class="popup-content">
-      <p>${message}</p>
-    </div>
-    `;
+  const containerId = `toast-container-${position}`;
+  let toastContainer = document.getElementById(containerId);
 
-  popupBox.appendChild(popup);
+  if (!toastContainer) {
+    toastContainer = document.createElement("div");
+    toastContainer.id = containerId;
+    toastContainer.className = `toast-container ${position}`;
+    document.body.appendChild(toastContainer);
+  }
 
-  popup.querySelector(".close-popup")?.addEventListener("click", () => {
-    popup.remove();
-  });
+  const toast = document.createElement("div");
+  toast.classList.add("toast", `toast-${type}`);
+  toast.innerHTML = `
+    <span class="toast-icon">${getIcon(type)}</span>
+    <span class="toast-message">${message}</span>
+    <span class="toast-close" onclick="this.parentElement.remove()">×</span>
+    <div class="toast-progress" style="animation-duration:${duration}ms"></div>
+  `;
 
-  setTimeout(() => popup.remove(), 5000);
-};
+  toastContainer.appendChild(toast);
+
+  setTimeout(() => toast.remove(), duration);
+}
+
+function getIcon(type) {
+  switch (type) {
+    case "success":
+      return "✅";
+    case "error":
+      return "❌";
+    case "warning":
+      return "⚠️";
+    case "info":
+    default:
+      return "ℹ️";
+  }
+}
+
+/********************* Utility: Loader *********************/
+const showModernLoader = () =>
+  document.getElementById("modernLoader").classList.remove("hidden");
+const hideModernLoader = () =>
+  document.getElementById("modernLoader").classList.add("hidden");
 
 /********************* Handling User Authentication & Profile *********************/
 /********************* Handling User Authentication & Profile *********************/
@@ -40,16 +67,46 @@ const showPopup = (message, type = "info") => {
 
 const profilePic = document.querySelector(".profile");
 const profilePopup = document.querySelector(".profile_popup");
-const logOutBtn = document.querySelector(".logOut");
 
-const openProfilePopup = () => {
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    console.log("User Logged In", user.uid);
+
+    if (profilePic) profilePic.style.display = "flex";
+
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      const userData = userSnap.data();
+      profilePic.src =
+        userData.profileImage || "../images/logos&illustration/user.png";
+    }
+  } else {
+    if (profilePic) profilePic.style.display = "none";
+  }
+});
+
+const openProfilePopoup = () => {
   profilePopup.style.display = "flex";
 };
-profilePic.addEventListener("click", openProfilePopup);
+
+profilePic.addEventListener("click", (e) => {
+  e.stopPropagation();
+  openProfilePopoup();
+});
 
 document.querySelector(".view_profile").addEventListener("click", () => {
-  window.location.replace("/public/Assets/html/profile.html");
+  window.location.replace("../html/profile.html");
 });
+
+document.addEventListener("click", (e) => {
+  if (!profilePopup.contains(e.target) && !profilePic.contains(e.target)) {
+    profilePopup.style.display = "none";
+  }
+});
+
+/********************* Sign Out Section *********************/
 
 const signOutUser = async () => {
   try {
@@ -63,7 +120,7 @@ const signOutUser = async () => {
   }
 };
 
-logOutBtn.addEventListener("click", signOutUser);
+document.querySelector(".logOut").addEventListener("click", signOutUser);
 
 /********************* Upload image to cloudinary *********************/
 /********************* Upload image to cloudinary *********************/
@@ -90,12 +147,10 @@ const uploadToCloudinary = async (file) => {
       throw new Error("Failed to upload image.");
     }
 
-    showPopup("Blog Cover Image Upload Successfully! ✅");
-    console.log("cover Image", data.secure_url);
     return data.secure_url;
   } catch (error) {
     console.error("Error uploading image:", error);
-    showPopup("Error uploading image: " + error.message);
+    showToast("Error uploading image: " + error.message);
     return null;
   }
 };
@@ -129,10 +184,8 @@ const uploadMultipleImages = async (files) => {
 
       if (data.secure_url) {
         imageUrls.push(data.secure_url);
-        showPopup("Blog Images Upload Successfully! ✅");
-        console.log("Additional Image", data.secure_url);
       } else {
-        showPopup("Failed to upload an image.");
+        showToast("Failed to upload an image.");
       }
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -155,8 +208,24 @@ additionalImages.addEventListener("change", (e) => {
 
 const blogForm = document.querySelector(".blog_form");
 const blogEditor = document.getElementById("richTextEditor");
+const blogButton = document.querySelector(".primary_btn");
+const blogTitleInput = document.querySelector(".blog_title input");
+const seoTitleInput = document.querySelector(".blog_seo_title input");
+const categorySelect = document.querySelector("#categorySelect");
+const blogTagsInput = document.querySelector(".blog_tags input");
+const blogSummaryInput = document.querySelector(".blog_summary input");
+const readingTimeInput = document.querySelector(
+  ".status_controls input:nth-of-type(1)"
+);
+const readingURLInput = blogForm.querySelector(
+  ".status_controls input:nth-of-type(2)"
+);
+const keywordsInput = blogForm.querySelector(
+  ".status_controls input:nth-of-type(3)"
+);
 
 onAuthStateChanged(auth, async (user) => {
+  showModernLoader();
   let userData = null;
 
   if (user) {
@@ -171,12 +240,14 @@ onAuthStateChanged(auth, async (user) => {
     }
   }
 
+  hideModernLoader();
+
   if (!user) {
-    showPopup("You need to be logged in to write a blog.");
-    window.location.href = "/public/Assets/html/login.html";
+    showToast("You need to be logged in to write a blog.");
+    window.location.href = "../html/login.html";
     return;
   } else {
-    showPopup(
+    showToast(
       `Hiii ${
         userData?.username || "User"
       }, Write with your Full Potential 🎉✨`
@@ -193,38 +264,11 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
-  const uploadFormData = async (e) => {
+  blogForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    console.log("button Clicked");
 
-    const blogImageFile = uploadBogCover.files[0];
-    const additionalImageFiles = additionalImages.files;
-
-    let coverImageUrl = null;
-    let additionalImagesUrls = [];
-
-    if (blogImageFile) {
-      coverImageUrl = await uploadToCloudinary(blogImageFile);
-    }
-
-    if (additionalImageFiles.length > 0) {
-      additionalImagesUrls = await uploadMultipleImages(additionalImageFiles);
-    }
-
-    const blogTitleInput = document.querySelector(".blog_title input");
-    const seoTitleInput = document.querySelector(".blog_seo_title input");
-    const categorySelect = document.querySelector("#categorySelect");
-    const blogTagsInput = document.querySelector(".blog_tags input");
-    const blogSummaryInput = document.querySelector(".blog_summary input");
-    const readingTimeInput = document.querySelector(
-      ".status_controls input:nth-of-type(1)"
-    );
-    const readingURLInput = blogForm.querySelector(
-      ".status_controls input:nth-of-type(2)"
-    );
-    const keywordsInput = blogForm.querySelector(
-      ".status_controls input:nth-of-type(3)"
-    );
+    const isEditMode = localStorage.getItem("editMode");
+    const editBlogId = localStorage.getItem("editBlogId");
 
     if (
       !blogTitleInput ||
@@ -237,10 +281,23 @@ onAuthStateChanged(auth, async (user) => {
       !keywordsInput
     ) {
       console.error("One or more form elements are missing!");
-      alert(
-        "Error: Some form elements are missing. Please check your HTML structure."
-      );
       return;
+    }
+
+    const blogImageFile = uploadBogCover.files[0];
+    const additionalImageFiles = additionalImages.files;
+
+    let coverImageUrl = null;
+    let additionalImagesUrls = [];
+
+    if (blogImageFile) {
+      coverImageUrl = await uploadToCloudinary(blogImageFile);
+      showToast("Blog Cover Image Upload Successfully! ✅");
+    }
+
+    if (additionalImageFiles.length > 0) {
+      additionalImagesUrls = await uploadMultipleImages(additionalImageFiles);
+      showToast("Blog Cover Image Upload Successfully! ✅");
     }
 
     const blogData = {
@@ -253,7 +310,6 @@ onAuthStateChanged(auth, async (user) => {
       readingTime: readingTimeInput.value.trim(),
       readingURL: readingURLInput.value.trim(),
       keywords: keywordsInput.value.trim(),
-      createdAt: serverTimestamp(),
       coverImage: coverImageUrl || "",
       additionalImages: additionalImagesUrls,
       author: {
@@ -264,61 +320,59 @@ onAuthStateChanged(auth, async (user) => {
       },
     };
 
-    console.log(blogData);
-
     try {
-      const docRef = await addDoc(collection(db, "blogs"), blogData);
-      showPopup("Blog added successfully!");
+      if (isEditMode && editBlogId) {
+        const blogRef = doc(db, "blogs", editBlogId);
+        blogData.updatedAt = serverTimestamp();
+        await updateDoc(blogRef, blogData);
+        showToast("Blog updated successfully!");
+      } else {
+        blogData.createdAt = serverTimestamp();
+        const blogRef = await addDoc(collection(db, "blogs"), blogData);
+        await setDoc(doc(db, "users", user.uid, "blogs", blogRef.id), {
+          blogId: blogRef.id,
+          title: blogData.title,
+          coverImageUrl: blogData.coverImage,
+          summary: blogData.summary,
+          createdAt: serverTimestamp(),
+        });
+        showToast("Blog added successfully!");
+      }
+
+      localStorage.removeItem("editMode");
+      localStorage.removeItem("editBlogId");
       window.location.href = "/public/Assets/html/blogs.html";
     } catch (error) {
-      console.error("Error adding blog:", error);
-      showPopup("Failed to add blog.");
+      console.error("Error saving blog:", error);
+      showToast("Failed to save blog.");
     }
-  };
-
-  async function addBlog(blogTitleInput, blogEditor, blogTagsInput) {
-    try {
-        await addDoc(collection(db, "users", user.uid, "blogs"), {
-            title: blogTitleInput.value.trim(),
-            content: blogEditor.innerHTML.trim(),
-            tags: blogTagsInput.value.split(",").map((tag) => tag.trim()),
-            createdAt: serverTimestamp(),
-        });
-        showPopup("Blog added successfully in profile page!");
-    } catch (error) {
-        console.error("Error adding blog:", error);
-    }
-}
-
-  blogForm.addEventListener("submit", uploadFormData);
-  blogForm.addEventListener("submit", addBlog);
-
+  });
 });
 
+window.addEventListener("DOMContentLoaded", async () => {
+  const isEditMode = localStorage.getItem("editMode");
+  const editBlogId = localStorage.getItem("editBlogId");
 
+  if (isEditMode && editBlogId) {
+    const blogRef = doc(db, "blogs", editBlogId);
+    const blogSnap = await getDoc(blogRef);
 
-// blogForm.addEventListener("submit", async function (event) {
-//   event.preventDefault();
+    if (blogSnap.exists()) {
+      const blogData = blogSnap.data();
+      console.log(blogData);
 
-//   const title = document.getElementById("blogTitle").value;
-//   const content = document.getElementById("blogContent").value;
-//   const tags = document
-//     .getElementById("blogTags")
-//     .value.split(",")
-//     .map((tag) => tag.trim());
-
-//   if (title && content) {
-//     try {
-//       await addBlog(title, content, tags);
-//       document.getElementById("blogMessage").innerText =
-//         "Blog posted successfully!";
-//       document.getElementById("blogForm").reset(); // Clear form
-//       displayBlogs(); // Refresh blogs in "My Blogs" tab
-//     } catch (error) {
-//       document.getElementById("blogMessage").innerText = "Error posting blog!";
-//     }
-//   } else {
-//     document.getElementById("blogMessage").innerText =
-//       "Title and Content are required!";
-//   }
-// });
+      blogTitleInput.value = blogData.title;
+      seoTitleInput.value = blogData.seoTitle;
+      categorySelect.value = blogData.category;
+      keywordsInput.value = blogData.keywords;
+      blogTagsInput.value = blogData.tags;
+      blogSummaryInput.value = blogData.summary;
+      blogEditor.innerHTML = blogData.content;
+      readingTimeInput.value = blogData.readingTime;
+      readingURLInput.value = blogData.readingURL;
+      uploadBogCover.src = blogData.coverImage;
+      additionalImages.innerHTML = blogData.additionalImages;
+      blogButton.textContent = "Update Blog";
+    }
+  }
+});

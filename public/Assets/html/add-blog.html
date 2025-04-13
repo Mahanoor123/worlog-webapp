@@ -11,9 +11,6 @@
 
 <body>
     <!---------------------- Navbar ---------------------->
-    <!---------------------- Navbar ---------------------->
-    <!---------------------- Navbar ---------------------->
-
     <nav class="navbar">
         <div class="social_icons">
             <i class="fa-brands fa-facebook-f"></i>
@@ -21,15 +18,15 @@
             <i class="fa-brands fa-pinterest-p"></i>
         </div>
         <div class="logo">
-            <img src="/public/Assets/images/logos&illustration/worlog-logo.png">
+            <img src="../images/logos&illustration/worlog-logo.png">
         </div>
         <div class="navlinks">
-            <a href="#" class="wishlist"><i class="fa-solid fa-heart"></i> <span id="fvrt-count">0</span></a>
             <img src="" alt="" class="profile">
             <div class="profile_popup">
                 <button class="view_profile">View Profile</button>
                 <hr>
                 <button class="logOut">Logout</button>
+                <hr>
             </div>
         </div>
     </nav>
@@ -39,13 +36,16 @@
     <!---------------------- Create Blog ---------------------->
 
     <main>
-        <div class="error_popup"></div>
+        <!---------------------- Loader Section ---------------------->
+        <div id="modernLoader" class="modern-loader hidden">
+            <div class="brightness-spinner">
+                <i class="fa-solid fa-spinner"></i>
+            </div>
+        </div>
         <section class="create_header">
             <div class="create_blog">
                 <div class="blog_header">
-                    <a href="#" class="back"><i class="fa-solid fa-less-than"></i>Back</a>
-                    <h3>Add Your Blog</h3>
-                    <a href="#" class="extra_option">Extra Option</a>
+                    Add Your Blog
                 </div>
                 <div class="add_blog_info">
                     <!-- Blog Form -->
@@ -112,7 +112,7 @@
                             <input type="text" placeholder="Reading URL (optional)">
                             <input type="text" placeholder="Important tags">
                         </div>
-                        <button class="primary_btn" type="submit">Publish</button>
+                        <button class="primary_btn btn" type="submit">Publish</button>
                     </form>
                 </div>
             </div>

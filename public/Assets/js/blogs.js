@@ -11,61 +11,6 @@ import {
   where,
 } from "../js/firebase.config.js";
 
-/********************* Handling User Authentication & Profile *********************/
-/********************* Handling User Authentication & Profile *********************/
-/********************* Handling User Authentication & Profile *********************/
-
-const profilePic = document.querySelector(".profile");
-const loginButton = document.querySelector(".login_btn");
-const favoriteBtn = document.querySelector(".wishlist");
-
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    console.log("User Logged In", user.uid);
-
-    if (loginButton) loginButton.style.display = "none";
-    if (profilePic) profilePic.style.display = "flex";
-    if (favoriteBtn) favoriteBtn.style.display = "flex";
-
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
-
-    if (userSnap.exists()) {
-      const userData = userSnap.data();
-      profilePic.src =
-        userData.profileImage ||
-        "/public/Assets/images/logos&illustration/user.png";
-    }
-  } else {
-    if (loginButton) loginButton.style.display = "block";
-    if (profilePic) profilePic.style.display = "none";
-    if (favoriteBtn) favoriteBtn.style.display = "none";
-  }
-});
-
-const openProfilePopoup = () => {
-  document.querySelector(".profile_popup").style.display = "flex";
-};
-profilePic.addEventListener("click", openProfilePopoup);
-
-document.querySelector(".view_profile").addEventListener("click", () => {
-  window.location.replace("./public/Assets/html/profile.html");
-});
-
-const signOutUser = async () => {
-  try {
-    const confirmLogout = confirm("Are you sure to logout?");
-    if (confirmLogout) {
-      await signOut(auth);
-      profilePopup.style.display = "none";
-    }
-  } catch (error) {
-    console.error("Logout Error:", error.message);
-  }
-};
-
-document.querySelector(".logOut").addEventListener("click", signOutUser);
-
 /********************* Navbar Toggle *********************/
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -86,6 +31,103 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+/********************* Handling User Authentication & Profile *********************/
+/********************* Handling User Authentication & Profile *********************/
+/********************* Handling User Authentication & Profile *********************/
+
+const profilePic = document.querySelector(".profile");
+const profilePopup = document.querySelector(".profile_popup");
+const loginButton = document.querySelector(".login_btn");
+const signupButton = document.querySelector(".signup_btn");
+const writeBlogButton = document.querySelectorAll(".write_blog");
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    console.log("User Logged In", user.uid);
+
+    if (loginButton) loginButton.style.display = "none";
+    if (signupButton) signupButton.style.display = "none";
+    if (profilePic) profilePic.style.display = "flex";
+
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      const userData = userSnap.data();
+      profilePic.src =
+        userData.profileImage ||
+        "/public/Assets/images/logos&illustration/user.png";
+    }
+  } else {
+    if (loginButton) loginButton.style.display = "flex";
+    if (signupButton) signupButton.style.display = "flex";
+    if (profilePic) profilePic.style.display = "none";
+  }
+});
+
+const openProfilePopoup = () => {
+  profilePopup.style.display = "flex";
+};
+
+profilePic.addEventListener("click", (e) => {
+  e.stopPropagation();
+  openProfilePopoup();
+});
+
+document.querySelector(".view_profile").addEventListener("click", () => {
+  window.location.replace("../html/profile.html");
+});
+
+document.addEventListener("click", (e) => {
+  if (!profilePopup.contains(e.target) && !profilePic.contains(e.target)) {
+    profilePopup.style.display = "none";
+  }
+});
+
+const signOutUser = async () => {
+  try {
+    const confirmLogout = confirm("Are you sure to logout?");
+    if (confirmLogout) {
+      await signOut(auth);
+      profilePopup.style.display = "none";
+    }
+  } catch (error) {
+    console.error("Logout Error:", error.message);
+  }
+};
+
+document.querySelector(".logOut").addEventListener("click", signOutUser);
+
+/*********************  Button Navigation *********************/
+/*********************  Button Navigation *********************/
+/*********************  Button Navigation *********************/
+
+writeBlogButton.forEach((button) => {
+  button.addEventListener("click", () => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        window.location.href = "../html/add-blog.html";
+      } else {
+        const userConfirmed = confirm(
+          "You need to be registered to write a blog. Do you want to sign up?"
+        );
+        if (userConfirmed) {
+          window.location.href = "../html/signup.html";
+        }
+      }
+    });
+  });
+});
+
+loginButton.addEventListener("click", () => {
+  window.location.replace("../html/login.html");
+});
+
+signupButton.addEventListener("click", () => {
+  window.location.replace("../html/signup.html");
+});
+
+
 /********************* Utility: Loader *********************/
 const showModernLoader = () => document.getElementById("modernLoader").classList.remove("hidden");
 const hideModernLoader = () => document.getElementById("modernLoader").classList.add("hidden");
@@ -99,7 +141,7 @@ const formatDate = (timestamp) => {
 
 /********************* State & Config *********************/
 let currentPage = 1;
-const postsPerPage = 10;
+const postsPerPage = 12;
 let allBlogs = [];
 let filteredBlogs = [];
 
@@ -140,7 +182,6 @@ const displayBlogs = () => {
         <div class="card_date">
           Posted on: <span>${date}</span> - <span class="cat">${blog.category || "Uncategorized"}</span>
         </div>
-        <i class="fa-solid fa-heart"></i>
       </div>
       <div class="card_title">${blog.title?.substring(0, 50) + "...."}</div>
       <div class="card_image">

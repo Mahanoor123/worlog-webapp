@@ -43,29 +43,56 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-/****************************************************/
-/*************** Popup Mesage ***************/
-/****************************************************/
+document.querySelector(".write_blog").addEventListener("click", () => {
+  window.location.replace("../html/add-blog.html");
+});
 
-let popupBox = document.querySelector(".error_popup");
+/********************* Utility: Loader *********************/
+const showModernLoader = () =>
+  document.getElementById("modernLoader").classList.remove("hidden");
+const hideModernLoader = () =>
+  document.getElementById("modernLoader").classList.add("hidden");
 
-const showPopup = (message, type = "info") => {
-  let popup = document.createElement("div");
-  popup.className = `popup${type}`;
-  popup.innerHTML = `
-    <div class="popup-content">
-      <p>${message}</p>
-    </div>
-    `;
+/********************* Utility: Toaster *********************/
 
-  popupBox.appendChild(popup);
+function showToast(message, type = "info", options = {}) {
+  const {
+    duration = 4000,
+    position = "center"
+  } = options;
 
-  popup.querySelector(".close-popup")?.addEventListener("click", () => {
-    popup.remove();
-  });
+  const containerId = `toast-container-${position}`;
+  let toastContainer = document.getElementById(containerId);
 
-  setTimeout(() => popup.remove(), 3000);
-};
+  if (!toastContainer) {
+    toastContainer = document.createElement("div");
+    toastContainer.id = containerId;
+    toastContainer.className = `toast-container ${position}`;
+    document.body.appendChild(toastContainer);
+  }
+
+  const toast = document.createElement("div");
+  toast.classList.add("toast", `toast-${type}`);
+  toast.innerHTML = `
+    <span class="toast-icon">${getIcon(type)}</span>
+    <span class="toast-message">${message}</span>
+    <span class="toast-close" onclick="this.parentElement.remove()">×</span>
+    <div class="toast-progress" style="animation-duration:${duration}ms"></div>
+  `;
+
+  toastContainer.appendChild(toast);
+
+  setTimeout(() => toast.remove(), duration);
+}
+
+function getIcon(type) {
+  switch (type) {
+    case "success": return "✅";
+    case "error": return "❌";
+    case "warning": return "⚠️";
+    case "info": default: return "ℹ️";
+  }
+}
 
 /****************************************************/
 /*************** User Profile data ***************/
@@ -123,7 +150,7 @@ const uploadImg = async () => {
       const file = event.target.files[0];
 
       if (!file) {
-        showPopup("Please select an image first.");
+        showToast("Please select an image first.", "warning");
         return;
       }
 
@@ -156,13 +183,13 @@ const uploadImg = async () => {
           });
 
           profileImage.src = data.secure_url;
-          showPopup("Profile picture updated successfully! ✅");
+          showToast("Profile picture updated successfully!", "success");
         } else {
-          showPopup("User not found.");
+          showToast("User not found.");
         }
       } catch (error) {
         console.error("Error uploading image:", error);
-        showPopup("Error uploading image: " + error.message);
+        showToast("Error uploading image: " + error.message);
       }
     },
     { once: true }
@@ -177,7 +204,6 @@ uploadIcon.addEventListener("click", uploadImg);
 
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    showPopup(`Hii ${user.username}! Welcome to your profile`)
     console.log("User is logged in:", user);
     displayUserProfile();
 
@@ -185,12 +211,14 @@ onAuthStateChanged(auth, async (user) => {
     const userSnap = await getDoc(userRef);
 
     if (userSnap.exists()) {
-      loadUserProfile(userSnap.data());
+      const userData = userSnap.data();
+      loadUserProfile(userData);
+      showToast(`Hii ${userData.username}! Welcome to your profile.`);
+
     } else {
       console.log("User data not found in Firestore.");
     }
   } else {
-    console.log("User is logged out.");
     window.location.href = "index.html";
   }
 });
@@ -209,6 +237,7 @@ editProfileBtn.addEventListener("click", async () => {
   if (userSnap.exists()) {
     const userData = userSnap.data();
 
+    showToast(`Hii ${userData.username}! Update your profile.`);
     // Fill form fields with existing user data
     usernameField.value = userData.username || "";
     emailField.value = user.email || "";
@@ -228,6 +257,7 @@ editProfileBtn.addEventListener("click", async () => {
 /****************************************************/
 
 const displayUserProfile = async () => {
+  showModernLoader();
   const user = auth.currentUser;
 
   if (!user) {
@@ -241,6 +271,9 @@ const displayUserProfile = async () => {
   const userBio = document.querySelector(".user_bio");
   const userGender = document.querySelector(".user_gender");
   const profileImage = document.getElementById("profileImage");
+  const bookmarkBlog = document.querySelector(".bookmark-blog");
+  // const myBlog = document.querySelector(".my-blog");
+
 
   try {
     const userRef = doc(db, "users", user.uid);
@@ -249,19 +282,21 @@ const displayUserProfile = async () => {
     if (userSnap.exists()) {
       const userData = userSnap.data();
 
-      userName.textContent = userData.username || user.displayName || "No Name";
-      userEmail.textContent = userData.userEmail || "No Email";
-
-      userCountry.textContent = userData.country || "Your Country";
-      userBio.textContent = userData.bio || "Your bio";
-      userGender.textContent = userData.gender || "Your gender";
+      userName.textContent =   userData.username || user.displayName || "Write Your Name";
+      userEmail.textContent = userData.userEmail || "Write Your Email";
+      userCountry.textContent = userData.country || "Enter Your Country";
+      userBio.textContent = userData.bio || "Write Your bio";
+      userGender.textContent = userData.gender || "Select Your gender";
+      bookmarkBlog.textContent = userData.bookmarks.length;
+      // myBlog.textContent = userData.blogs.length;
 
       profileImage.src =
         userData.profileImage ||
-        "/public/Assets/images/logos&illustration/user.png";
+        "../images/logos&illustration/user.png";
     } else {
       console.log("No user data found in Firestore.");
     }
+    hideModernLoader();
   } catch (error) {
     console.error("Error displaying user profile:", error);
   }
@@ -289,12 +324,12 @@ saveProfileBtn.addEventListener("click", async (e) => {
 
     await setDoc(doc(db, "users", user.uid), updatedData, { merge: true });
 
-    showPopup("Profile updated successfully! ✅");
+    showToast("Profile updated successfully!", "success");
 
     profileForm.style.display = "none";
   } catch (error) {
     console.error("Error updating profile:", error);
-    showPopup("Failed to update profile. ❌", "error");
+    showToast("Failed to update profile. ❌", "error");
   }
 });
 
@@ -308,6 +343,7 @@ const signOutUser = async () => {
     if (confirmLogout) {
       await signOut(auth);
       profilePopup.style.display = "none";
+      window.location.href = "/";
     }
   } catch (error) {
     console.error("Logout Error:", error.message);
@@ -323,7 +359,7 @@ const reauthenticateUser = async (currentPassword) => {
   try {
     const user = auth.currentUser;
     if (!user) {
-      showPopup("No user is currently logged in.", "error");
+      showToast("No user is currently logged in.", "error");
       return false;
     }
 
@@ -335,7 +371,7 @@ const reauthenticateUser = async (currentPassword) => {
     return true;
   } catch (error) {
     console.error("Re-authentication failed:", error.message);
-    showPopup("Re-authentication failed: " + error.message, "error");
+    showToast("Re-authentication failed: " + error.message, "error");
     return false;
   }
 };
@@ -358,7 +394,7 @@ const isValidPassword = (password) => {
 const updateUserPassword = async () => {
   const user = auth.currentUser;
   if (!user) {
-    showPopup("No user is currently logged in.", "error");
+    showToast("No user is currently logged in.", "error");
     return;
   }
 
@@ -367,12 +403,12 @@ const updateUserPassword = async () => {
   const confirmPassword = confirmPasswordInput.value.trim();
 
   if (!currentPassword || !newPassword || !confirmPassword) {
-    showPopup("Please fill in all fields.", "error");
+    showToast("Please fill in all fields.", "error");
     return;
   }
 
   if (newPassword !== confirmPassword) {
-    showPopup("New passwords do not match!", "error");
+    showToast("New passwords do not match!", "error");
     return;
   }
 
@@ -390,14 +426,14 @@ const updateUserPassword = async () => {
 
   try {
     await updatePassword(user, newPassword);
-    showPopup("Password updated successfully! ✅", "success");
+    showToast("Password updated successfully! ✅", "success");
 
     currentPasswordInput.value = "";
     newPasswordInput.value = "";
     confirmPasswordInput.value = "";
   } catch (error) {
     console.error("Error updating password:", error.message);
-    showPopup("Error updating password: " + error.message, "error");
+    showToast("Error updating password: " + error.message, "error");
   }
 };
 
@@ -428,27 +464,23 @@ updateEmailBtn.addEventListener("click", async () => {
   }
 
   try {
-    // Update email in Firebase Authentication
     await updateEmail(user, newEmail);
-
-    // Send email verification link
     await sendEmailVerification(user);
 
-    // Update email in Firestore
     const userRef = doc(db, "users", user.uid);
     await updateDoc(userRef, { email: newEmail, emailVerified: false });
 
-    alert("Email updated! Please verify it via the link sent to your email.");
+    showToast("Email updated! Please verify it via the link sent to your email.");
   } catch (error) {
     console.error("Error updating email:", error.message);
     alert("Error updating email: " + error.message);
   }
 });
 
-
 /*****************************************************************/
 /************** Delete User from Firestore ***************/
 /*****************************************************************/
+
 
 const deleteUserAccount = async () => {
   const user = auth.currentUser;
@@ -458,18 +490,46 @@ const deleteUserAccount = async () => {
     return;
   }
 
-  const confirmDelete = confirm("Are you sure you want to delete your account? This action cannot be undone.");
-  if (!confirmDelete) return;
-
-  try {
-    await deleteDoc(doc(db, "users", user.uid));
-    await deleteUser(user);
-    showPopup("Your account has been deleted successfully.");
-  } catch (error) {
-    console.error("Error deleting account:", error.message);
-    showPopup("Error deleting account: " + error.message);
-  }
+  const confirmCode = Math.floor(1000 + Math.random() * 9000);
+      const userCode = prompt(
+        `To confirm deletion, enter this code: ${confirmCode}`
+      );
+  
+      if (parseInt(userCode) === confirmCode) {
+        deleteDoc(doc(db, "users", user.uid))
+        await deleteUser(user)
+          .then(() => {
+            showToast("Your account has been deleted successfully.", "success");
+            window.location.href = "../html/blogs.html";
+          })
+          .catch((error) => {
+            console.error("Error deleting blog:", error);
+            showToast("Failed to delete blog. Please try again.");
+          });
+      } else {
+        showToast("Incorrect code. Blog deletion cancelled.", "error");
+      }
 };
 
-document.querySelector(".deleteAccount").addEventListener("click", deleteUserAccount);
+// const deleteUserAccount = async () => {
+//   const user = auth.currentUser;
 
+//   if (!user) {
+//     alert("No user is currently logged in.");
+//     return;
+//   }
+
+//   const confirmDelete = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+//   if (!confirmDelete) return;
+
+//   try {
+//     await deleteDoc(doc(db, "users", user.uid));
+//     await deleteUser(user);
+//     showToast("Your account has been deleted successfully.");
+//   } catch (error) {
+//     console.error("Error deleting account:", error.message);
+//     showToast("Error deleting account: " + error.message);
+//   }
+// };
+
+document.querySelector(".deleteAccount").addEventListener("click", deleteUserAccount);

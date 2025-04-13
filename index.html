@@ -12,7 +12,6 @@
 <body>
 
     <!---------------------- Navbar ---------------------->
-
     <nav class="navbar">
         <div class="social_icons">
             <i class="fa-brands fa-facebook-f"></i>
@@ -23,7 +22,7 @@
             <img src="./public/Assets/images/logos&illustration/worlog-logo.png">
         </div>
         <div class="navlinks">
-            <button class="write_blog"><i class="fa-solid fa-pen"></i>Write</button>
+            <button class="write_blog btn"><i class="fa-solid fa-pen"></i>Write</button>
             <img src="" alt="" class="profile">
             <div class="profile_popup">
                 <button class="view_profile">View Profile</button>
@@ -31,8 +30,8 @@
                 <button class="logOut">Logout</button>
                 <hr>
             </div>
-            <button class="login_btn"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</button>
-            <button class="signup_btn"><i class="fa-solid fa-user-plus"></i>SignUp</button>
+            <button class="login_btn btn"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</button>
+            <button class="signup_btn btn"><i class="fa-solid fa-user-plus"></i>SignUp</button>
         </div>
     </nav>
     <!-- Mobile Menu Icon -->
@@ -54,17 +53,16 @@
     </nav>
 
     <!---------------------- Hero Section ---------------------->
-
     <div class="hero">
         <div class="hero_image">
             <img src="./public/Assets/images/backgrounds/background3.png" class="current_img">
         </div>
         <div class="hero_content">
             <img src="./public/Assets/images/backgrounds/mike.png">
-            <h1>WORLOG</h1>
-            <p>We are the world of thinkers share our voices with insights.</p>
-            <button class="explore_btn">Explore Blogs <i class="fa-solid fa-arrow-right"></i></button>
-            <button class="write_blog"><i class="fa-solid fa-pencil"></i>Write blog</button>
+            <h1 class="fade-slide">WORLOG</h1>
+            <p class="fade-slide delay-1">We are the world of thinkers share our voices with insights.</p>
+            <button class="explore_btn btn fade-slide delay-2">Explore Blogs <i class="fa-solid fa-arrow-right"></i></button>
+            <button class="write_blog btn"><i class="fa-solid fa-pencil"></i>Write blog</button>
         </div>
         <button class="left_carousel"><i class="fa-regular fa-less-than"></i></button>
         <button class="right_carousel"><i class="fa-regular fa-greater-than"></i></button>
@@ -77,6 +75,7 @@
                 <i class="fa-solid fa-spinner"></i>
             </div>
         </div>
+        <!---------------------- Toaster Message Section ---------------------->
         <!---------------------- Categories Section ---------------------->
         <section class="blogs_category">
             <h2>Popular Categories</h2>
@@ -106,7 +105,6 @@
             <div class="latest_container">
                 <!-- Dynamic cards data generate here -->
             </div>
-            <button class="view_more">View more</button>
         </section>
         <!---------------------- About Section ---------------------->
         <section class="about_section">
@@ -114,11 +112,7 @@
             <div class="about_blog">
                 <div class="about_left">
                     <h3>World's top Blogs here</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore est, enim mollitia cupiditate
-                        voluptas ipsa doloribus laboriosam suscipit harum quam nisi ab perspiciatis facere dolores odio
-                        itaque molestias illo dignissimos corporis consequuntur? Voluptates quis dicta consequuntur,
-                        corporis commodi modi? Nam quam fugiat quas eum autem. Omnis magni quisquam error exercitationem
-                        natus neque aspernatur! Deserunt, ducimus.</p>
+                    <p>At WorLog, blogs aren’t just words on a screen — they’re thoughts that breathe, ideas that connect, and stories that spark minds. Every post here is crafted with intention — whether it’s a personal reflection, a bold opinion, a creative spark, or a lesson worth sharing. Our platform is built for thinkers, feelers, and creators who believe their voice deserves a space that not only showcases their words but amplifies their essence. Dive in, explore perspectives, engage in meaningful conversations, and if you’ve got something to say — your blog might just be someone’s turning point.</p>
                 </div>
                 <div class="about-centre">
                     <img src="./public/Assets/images/backgrounds/aboutt.png">
@@ -139,29 +133,40 @@
             <form class="news_form">
                 <h3>Get our latest posts</h3>
                 <input type="email" placeholder="Enter Email">
-                <button class="primary_btn">Subscribe</button>
+                <button class="primary_btn btn">Subscribe</button>
             </form>
         </section>
         <!---------------------- Badges Section ---------------------->
         <section class="badges">
             <h2>Get Premium badges</h2>
+            <p class="badges_info">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam magnam et aperiam unde odio eveniet ipsam modi accusamus ullam tenetur.</p>
             <div class="badge_display">
-
+                <img src="./public/Assets/images/logos&illustration/worlog-badges.png">
             </div>
         </section>
     </main>
     <!---------------------- Footer Section ---------------------->
-
     <footer>
         <div class="sub_footer">
-            <h4>This blog developed by:</h4>
-            <span>Mahanoor khan</span>
-            <img src="/public/Assets/images/logos&illustration/my_logo.png" alt="">
+            <p> - This blog developed by -</p>
+            <img src="/public/Assets/images/logos&illustration/my_logo.png">
+            <h3>Mahanoor khan</h3>
             <div class="creater_socials">
-                <i class="fa-solid fa-facebook-f"></i>
-                <i class="fa-solid fa-search"></i>
-                <i class="fa-solid fa-search"></i>
+                <i class="fa-brands fa-facebook-f"></i>
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-linkedin"></i>
+                <i class="fa-brands fa-github"></i>
             </div>
+        </div>
+        <div class="sub_footer2">
+            <blockquote>
+                “Words have the power to shape minds, shift perspectives, and spark revolutions — one blog at a time.”
+              </blockquote>
+              <div class="footer_link">
+                <a href="#">Home</a>
+                <a href="#">All Blogs</a>
+                <a href="#">Write a blog</a>
+              </div>
         </div>
     </footer>
 

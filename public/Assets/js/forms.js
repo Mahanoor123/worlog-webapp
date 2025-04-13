@@ -15,27 +15,46 @@ import {
   signInWithEmailAndPassword,
 } from "../js/firebase.config.js";
 
-// --------------------------------------- Function for custom popup
+/********************* Utility: Toaster *********************/
 
-let popupBox = document.querySelector(".error_popup");
+function showToast(message, type = "info", options = {}) {
+  const {
+    duration = 4000,
+    position = "top-right"
+  } = options;
 
-const showPopup = (message, type = "info") => {
-  let popup = document.createElement("div");
-  popup.className = `popup${type}`;
-  popup.innerHTML = `
-    <div class="popup-content">
-      <p>${message}</p>
-    </div>
-    `;
+  const containerId = `toast-container-${position}`;
+  let toastContainer = document.getElementById(containerId);
 
-  popupBox.appendChild(popup);
+  if (!toastContainer) {
+    toastContainer = document.createElement("div");
+    toastContainer.id = containerId;
+    toastContainer.className = `toast-container ${position}`;
+    document.body.appendChild(toastContainer);
+  }
 
-  popup.querySelector(".close-popup")?.addEventListener("click", () => {
-    popup.remove();
-  });
+  const toast = document.createElement("div");
+  toast.classList.add("toast", `toast-${type}`);
+  toast.innerHTML = `
+    <span class="toast-icon">${getIcon(type)}</span>
+    <span class="toast-message">${message}</span>
+    <span class="toast-close" onclick="this.parentElement.remove()">×</span>
+    <div class="toast-progress" style="animation-duration:${duration}ms"></div>
+  `;
 
-  setTimeout(() => popup.remove(), 3000);
-};
+  toastContainer.appendChild(toast);
+
+  setTimeout(() => toast.remove(), duration);
+}
+
+function getIcon(type) {
+  switch (type) {
+    case "success": return "✅";
+    case "error": return "❌";
+    case "warning": return "⚠️";
+    case "info": default: return "ℹ️";
+  }
+}
 
 // --------------------------------------- Function for eye icon
 
@@ -113,12 +132,13 @@ const userSignup = async (e) => {
   confirmError.textContent = "";
 
   if (!username || !userEmail || !userPassword || !confirmPassword) {
-    showPopup("Please fill in all fields.");
+    showToast("Please fill in all fields.", "warning");
     return;
   }
 
   if (userPassword !== confirmPassword) {
     confirmError.textContent = "Passwords do not match!";
+    showToast("Passwords must be match", "warning");
     return;
   }
 
@@ -131,12 +151,14 @@ const userSignup = async (e) => {
     let user = currentUser?.user;
 
     if (!user) {
-      showPopup("User registration failed!", "error");
+      showToast("User registration failed!", "error",{
+        duration: 3000
+      });
       return;
     }
 
     await sendEmailVerification(user);
-    showPopup(
+    showToast(
       "Please verify your email before logging in. A verification link has been sent to your email."
     );
 
@@ -168,7 +190,7 @@ const userSignup = async (e) => {
     }, 2000);
   } catch (error) {
     console.error("Signup Error:", error.message);
-    showPopup(`Error: ${error.message}`, "error");
+    showToast(`Error: ${error.message}`, "error");
   }
 };
 
@@ -189,7 +211,9 @@ const userLogin = async (e) => {
   let userPassword = document.querySelector("#userPassword")?.value.trim();
 
   if (!userEmail || !userPassword) {
-    showPopup("Please enter both email and password.");
+    showToast("Please enter both email and password.", "warning",{
+      duration: 3000
+    });
     return;
   }
 
@@ -203,16 +227,18 @@ const userLogin = async (e) => {
 
     if (user) {
       if (user.emailVerified) {
-        showPopup("Login Successful! ✅");
+        showToast("Login Successful!", "success",{
+          duration: 3000
+        });
         setTimeout(() => {
           window.location.pathname = "./index.html";
         }, 2000);
       } else {
-        showPopup("Please verify your email before logging in.");
+        showToast("Please verify your email before logging in.", "info");
       }
     }
   } catch (error) {
-    showPopup("Invalid email or password. Please try again.");
+    showToast("Invalid email or password. Please try again.");
     console.error(error.message);
   }
 
@@ -251,7 +277,7 @@ const _fPassword = async () => {
   let userEmail = document.querySelector("#userEmail")?.value.trim();
 
   if (!userEmail || !userEmail.includes("@") || !userEmail.includes(".")) {
-    showPopup("Please enter a valid email.", "error");
+    showToast("Please enter a valid email.", "error");
     return;
   }
 
@@ -259,11 +285,11 @@ const _fPassword = async () => {
     await sendPasswordResetEmail(auth, userEmail);
 
     setTimeout(() => {
-      showPopup("Go to your email to reset password.");
+      showToast("Go to your email to reset password.", "info");
     }, 2000);
   } catch (error) {
     console.error("Error:", error.message);
-    showPopup("Something went wrong. Please try again.", "error");
+    showToast("Something went wrong. Please try again.", "error");
   }
 };
 

@@ -30,6 +30,7 @@ import {
   updateDoc,
   addDoc,
   serverTimestamp,
+  Timestamp,
   query,
   orderBy,
   where,
@@ -86,5 +87,6 @@ export {
   reauthenticateWithCredential,
   updateEmail,
   sendSignInLinkToEmail,
-  limit
+  limit,
+  Timestamp,
 };
