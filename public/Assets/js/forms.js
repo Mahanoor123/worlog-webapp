@@ -20,7 +20,7 @@ import {
 function showToast(message, type = "info", options = {}) {
   const {
     duration = 4000,
-    position = "top-right"
+    position = "center"
   } = options;
 
   const containerId = `toast-container-${position}`;
@@ -186,7 +186,7 @@ const userSignup = async (e) => {
     confirmPasswordField.value = "";
 
     setTimeout(() => {
-      window.location.pathname = "../public/Assets/html/login.html";
+      window.location.replace("./public/Assets/html/login.html");
     }, 2000);
   } catch (error) {
     console.error("Signup Error:", error.message);
@@ -253,14 +253,24 @@ document.querySelector(".login_form")?.addEventListener("submit", userLogin);
 
 const provider = new GoogleAuthProvider();
 
+if(!provider){
+  showToast("You must be logged in to your account", "info");
+}
+
 provider.setCustomParameters({ prompt: "select_account" });
 
-const _sigInWithGoogle = async () => {
+const _sigInWithGoogle = async (e) => {
+  e.preventDefault();
   try {
     await signOut(auth);
     console.log("User signed out before sign-in attempt.");
-
     const result = await signInWithPopup(auth, provider);
+    if(result){
+      showToast("Your login successful with Google", "success");
+      setTimeout(() => {
+        window.location.pathname = "./index.html";
+      }, 2000);
+    }
     console.log("User signed in:", result.user);
   } catch (error) {
     console.error("Google Sign-In Error:", error.message);
@@ -277,15 +287,14 @@ const _fPassword = async () => {
   let userEmail = document.querySelector("#userEmail")?.value.trim();
 
   if (!userEmail || !userEmail.includes("@") || !userEmail.includes(".")) {
-    showToast("Please enter a valid email.", "error");
+    showToast("Please enter a valid email first.", "error");
     return;
   }
 
   try {
     await sendPasswordResetEmail(auth, userEmail);
-
     setTimeout(() => {
-      showToast("Go to your email to reset password.", "info");
+      showToast("A password reset link has been sent to your account", "info");
     }, 2000);
   } catch (error) {
     console.error("Error:", error.message);

@@ -75,7 +75,22 @@ profilePic.addEventListener("click", (e) => {
 });
 
 document.querySelector(".view_profile").addEventListener("click", () => {
-  window.location.replace("../html/profile.html");
+  if (!isUserVerified()) {
+      const userConfirmed = confirm(
+        "You need to verify your email to write a blog. Go to email inbox and confirm verification link. Want to resend verification email?"
+      );
+      if (auth.currentUser && userConfirmed) {
+        sendEmailVerification(auth.currentUser)
+          .then(() => {
+            showToast("Verification email resent. Check your inbox!", "info");
+          })
+          .catch((err) => {
+            showToast("Error resending email.", "error");
+          });
+      }
+      return;
+    };
+    window.location.replace("./public/Assets/html/profile.html");
 });
 
 document.addEventListener("click", (e) => {
@@ -90,6 +105,7 @@ const signOutUser = async () => {
     if (confirmLogout) {
       await signOut(auth);
       profilePopup.style.display = "none";
+      window.location.href = "/index.html";
     }
   } catch (error) {
     console.error("Logout Error:", error.message);
@@ -105,17 +121,33 @@ document.querySelector(".logOut").addEventListener("click", signOutUser);
 writeBlogButton.forEach((button) => {
   button.addEventListener("click", () => {
     onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        window.location.href = "../html/add-blog.html";
-      } else {
+      if (!user) {
         const userConfirmed = confirm(
           "You need to be registered to write a blog. Do you want to sign up?"
         );
         if (userConfirmed) {
-          window.location.href = "../html/signup.html";
+          window.location.href = "./public/Assets/html/signup.html";
         }
       }
     });
+    if (!isUserVerified()) {
+      const userConfirmed = confirm(
+        "You need to verify your email to write a blog. Go to email inbox and confirm verification link. Want to resend verification email?"
+      );
+
+      if (auth.currentUser && userConfirmed) {
+        sendEmailVerification(auth.currentUser)
+          .then(() => {
+            showToast("Verification email resent. Check your inbox!", "info");
+          })
+          .catch((err) => {
+            showToast("Error resending email.", "error");
+          });
+      }
+      return;
+    }
+
+    window.location.href = "./public/Assets/html/add-blog.html";
   });
 });
 

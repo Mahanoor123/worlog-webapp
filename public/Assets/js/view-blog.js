@@ -71,7 +71,9 @@ onAuthStateChanged(auth, async (user) => {
 
     localStorage.setItem("isAuthenticated", "true");
     localStorage.setItem("isEmailVerified", isVerified);
-    localStorage.setItem("currentUserId", user.uid);
+    localStorage.setItem("currentUserId", user?.uid);
+    localStorage.setItem("currentUserImage", user?.profileImage);
+    localStorage.setItem("currentUserName", user?.username);
 
     if (loginButton) loginButton.style.display = "none";
     if (signupButton) signupButton.style.display = "none";
@@ -83,18 +85,19 @@ onAuthStateChanged(auth, async (user) => {
     if (userSnap.exists()) {
       const userData = userSnap.data();
       profilePic.src =
-        userData.profileImage ||
-        "/public/Assets/images/logos&illustration/user.png";
-      localStorage.setItem("currentUserImage", userData.profileImage);
-      localStorage.setItem("currentUserName", userData.username);
+        userData.profileImage || "../images/logos&illustration/blogger1.png";
+
+      if (isVerified) {
+        showToast(`Welcome back! ${userData.username} to WORLOG.`, "info", {
+          duration: 6000,
+        });
+      }
     }
   } else {
+    localStorage.clear();
     if (loginButton) loginButton.style.display = "flex";
     if (signupButton) signupButton.style.display = "flex";
     if (profilePic) profilePic.style.display = "none";
-    localStorage.removeItem("currentUserId");
-    localStorage.removeItem("currentUserImage", userData.profileImage);
-    localStorage.removeItem("currentUserName", userData.username);
   }
 });
 
@@ -103,19 +106,27 @@ const openProfilePopoup = () => {
 };
 
 profilePic.addEventListener("click", (e) => {
-  if (!isUserVerified()) {
-    showToast("Please verify your email to access your profile.", "warning");
-    return;
-  }
   e.stopPropagation();
   openProfilePopoup();
 });
 
 document.querySelector(".view_profile").addEventListener("click", () => {
   if (!isUserVerified()) {
-    showToast("Please verify your email to access your profile.", "warning");
+    const userConfirmed = confirm(
+      "You need to verify your email to write a blog. Go to email inbox and confirm verification link. Want to resend verification email?"
+    );
+
+    if (auth.currentUser && userConfirmed) {
+      sendEmailVerification(auth.currentUser)
+        .then(() => {
+          showToast("Verification email resent. Check your inbox!", "info");
+        })
+        .catch((err) => {
+          showToast("Error resending email.", "error");
+        });
+    }
     return;
-  }
+  };
   window.location.replace("../html/profile.html");
 });
 
@@ -131,6 +142,7 @@ const signOutUser = async () => {
     if (confirmLogout) {
       await signOut(auth);
       profilePopup.style.display = "none";
+      window.location.href = "/index.html";
     }
   } catch (error) {
     console.error("Logout Error:", error.message);
@@ -146,7 +158,7 @@ function isUserVerified() {
     localStorage.getItem("isAuthenticated") === "true" &&
     localStorage.getItem("isEmailVerified") === "true"
   );
-}
+};
 
 /*********************  Button Navigation *********************/
 /*********************  Button Navigation *********************/
@@ -154,6 +166,16 @@ function isUserVerified() {
 
 writeBlogButton.forEach((button) => {
   button.addEventListener("click", () => {
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        const userConfirmed = confirm(
+          "You need to be registered to write a blog. Do you want to sign up?"
+        );
+        if (userConfirmed) {
+          window.location.href = "../html/signup.html";
+        }
+      };
+    });
     if (!isUserVerified()) {
       const userConfirmed = confirm(
         "You need to verify your email to write a blog. Go to email inbox and confirm verification link. Want to resend verification email?"
@@ -168,10 +190,10 @@ writeBlogButton.forEach((button) => {
             showToast("Error resending email.", "error");
           });
       }
-
       return;
     }
-    window.location.href = "./public/Assets/html/add-blog.html";
+
+    window.location.href = "../html/add-blog.html";
   });
 });
 
@@ -277,10 +299,10 @@ const displayBlog = (data) => {
   document.querySelector(".blog-keywords").innerHTML += data.keywords;
   document.querySelector(".blog-reading-link").innerHTML = readingLinkHTML;
   document.querySelector(".blog-content").innerHTML = data.content;
-  document.querySelector(".like-count").textContent = data.likes.length;
-  document.querySelector(".comment-count").textContent = data.comments.length;
-  document.querySelector(".rating-display").textContent = data.avgRating;
-  document.querySelector(".sharing-display").textContent = data.shareCount;
+  document.querySelector(".like-count").textContent = data?.likes?.length || "";
+  document.querySelector(".comment-count").textContent = data?.comments?.length || "";
+  document.querySelector(".rating-display").textContent = data?.avgRating || "";
+  document.querySelector(".sharing-display").textContent = data?.shareCount || "";
 
   /********************* Delete/Edit blog Function *********************/
 
@@ -294,9 +316,6 @@ const displayBlog = (data) => {
   } else {
     ellipsisIcon.style.display = "none";
   }
-
-  console.log(currentUserId);
-  console.log(data.author.uid);
 
   ellipsisIcon.addEventListener("click", () => {
     optionsPopup.classList.toggle("show");

@@ -194,7 +194,15 @@ h4 {
 .social_icons {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+}
+.social_icons a {
+  text-decoration: none;
+  color: var(--white-color);
+  margin: 0 0.2rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+.social_icons a:hover {
+  transform: scale(1.2);
 }
 .social_icons i {
   font-size: 1rem;
@@ -499,6 +507,9 @@ footer h3 {
   width: 6rem;
   height: 6rem;
   border-radius: 50%;
+}
+.creater_socials a{
+  text-decoration: none;
 }
 .creater_socials i {
   color: var(--primary-accent-color);

@@ -38,10 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
 /********************* Utility: Toaster *********************/
 
 function showToast(message, type = "info", options = {}) {
-  const {
-    duration = 4000,
-    position = "center"
-  } = options;
+  const { duration = 4000, position = "center" } = options;
 
   const containerId = `toast-container-${position}`;
   let toastContainer = document.getElementById(containerId);
@@ -66,16 +63,19 @@ function showToast(message, type = "info", options = {}) {
 
   setTimeout(() => toast.remove(), duration);
 }
-
 function getIcon(type) {
   switch (type) {
-    case "success": return "✅";
-    case "error": return "❌";
-    case "warning": return "⚠️";
-    case "info": default: return "ℹ️";
+    case "success":
+      return "✅";
+    case "error":
+      return "❌";
+    case "warning":
+      return "⚠️";
+    case "info":
+    default:
+      return "ℹ️";
   }
 }
-
 
 /********************* Handling User Authentication & Profile *********************/
 /********************* Handling User Authentication & Profile *********************/
@@ -108,19 +108,14 @@ onAuthStateChanged(auth, async (user) => {
       const userData = userSnap.data();
       profilePic.src =
         userData.profileImage ||
-        "../images/logos&illustration/user.png";
+        "./public/Assets/images/logos&illustration/default-user.jpeg";
 
-        if (isVerified) {
-          showToast(`Welcome back! ${userData.username} to WORLOG.`, "info", {
-            duration: 4000
-          });
-        } else {
-          showToast("Please verify your email to unlock full features!", "warning", {
-            duration: 5000
-          });
-        }
+      if (isVerified) {
+        showToast(`Welcome back! ${userData.username} to WORLOG.`, "info", {
+          duration: 6000,
+        });
+      }
     }
-    
   } else {
     localStorage.clear();
     if (loginButton) loginButton.style.display = "flex";
@@ -134,19 +129,27 @@ const openProfilePopoup = () => {
 };
 
 profilePic.addEventListener("click", (e) => {
-  if (!isUserVerified()) {
-    showToast("Please verify your email to access your profile.", "warning");
-    return;
-  }
   e.stopPropagation();
   openProfilePopoup();
 });
 
 document.querySelector(".view_profile").addEventListener("click", () => {
   if (!isUserVerified()) {
-    showToast("Please verify your email to access your profile.", "warning");
+    const userConfirmed = confirm(
+      "You need to verify your email to write a blog. Go to email inbox and confirm verification link. Want to resend verification email?"
+    );
+
+    if (auth.currentUser && userConfirmed) {
+      sendEmailVerification(auth.currentUser)
+        .then(() => {
+          showToast("Verification email resent. Check your inbox!", "info");
+        })
+        .catch((err) => {
+          showToast("Error resending email.", "error");
+        });
+    }
     return;
-  };
+  }
   window.location.replace("./public/Assets/html/profile.html");
 });
 
@@ -162,7 +165,7 @@ const signOutUser = async () => {
     if (confirmLogout) {
       await signOut(auth);
       profilePopup.style.display = "none";
-      window.location.href = "/";
+      window.location.href = "/index.html";
     }
   } catch (error) {
     console.error("Logout Error:", error.message);
@@ -186,6 +189,16 @@ function isUserVerified() {
 
 writeBlogButton.forEach((button) => {
   button.addEventListener("click", () => {
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        const userConfirmed = confirm(
+          "You need to be registered to write a blog. Do you want to sign up?"
+        );
+        if (userConfirmed) {
+          window.location.href = "../html/signup.html";
+        }
+      }
+    });
     if (!isUserVerified()) {
       const userConfirmed = confirm(
         "You need to verify your email to write a blog. Go to email inbox and confirm verification link. Want to resend verification email?"
@@ -200,24 +213,10 @@ writeBlogButton.forEach((button) => {
             showToast("Error resending email.", "error");
           });
       }
-
       return;
     }
 
     window.location.href = "./public/Assets/html/add-blog.html";
-   /*  onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        console.log("User is authenticated:", user);
-        window.location.href = "./public/Assets/html/add-blog.html";
-      } else {
-        const userConfirmed = confirm(
-          "You need to be registered to write a blog. Do you want to sign up?"
-        );
-        if (userConfirmed) {
-          window.location.href = "./public/Assets/html/signup.html";
-        }
-      }
-    }); */
   });
 });
 
@@ -239,39 +238,71 @@ const showModernLoader = () =>
 const hideModernLoader = () =>
   document.getElementById("modernLoader").classList.add("hidden");
 
+/********************* Hero Section Slider *********************/
+/********************* Hero Section Slider *********************/
+/********************* Hero Section Slider *********************/
 
-/********************* Hero Section Slider *********************/
-/********************* Hero Section Slider *********************/
-/********************* Hero Section Slider *********************/
+const typewriterElement = document.querySelector(".typewriter-text");
+
+const observer = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        typewriterElement.classList.add("animate");
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  {
+    threshold: 0.6,
+  }
+);
+
+observer.observe(typewriterElement);
 
 const heroImages = [
-  "/public/Assets/images/backgrounds/background.jpg",
-  "/public/Assets/images/backgrounds/background3.png",
-  "/public/Assets/images/backgrounds/background2.jpg",
-  "/public/Assets/images/backgrounds/background3.png",
+  "./public/Assets/images/backgrounds/bg1.jpg",
+  "./public/Assets/images/backgrounds/bg2.jpg",
+  "./public/Assets/images/backgrounds/bg3.jpg",
+  "./public/Assets/images/backgrounds/bg4.jpg",
+  "./public/Assets/images/backgrounds/bg5.jpg",
+  "./public/Assets/images/backgrounds/bg6.jpg",
 ];
 
 let currentIdx = 0;
 let currentImage = document.querySelector(".current_img");
 
+function updateImageWithFade(newIndex) {
+  currentImage.classList.add("fade-out");
+
+  setTimeout(() => {
+    currentIdx = newIndex;
+    currentImage.src = heroImages[currentIdx];
+    currentImage.classList.remove("fade-out");
+  }, 300);
+}
+
 function rightArrow() {
-  if (currentIdx === heroImages.length - 1) {
-    currentIdx = 0;
-  } else {
-    currentIdx++;
-  }
-  currentImage.src = heroImages[currentIdx];
+  let nextIdx = (currentIdx + 1) % heroImages.length;
+  updateImageWithFade(nextIdx);
+  resetAutoSlide();
 }
+
 function leftArrow() {
-  if (currentIdx === 0) {
-    currentIdx = heroImages.length - 1;
-  } else {
-    currentIdx--;
-  }
-  currentImage.src = heroImages[currentIdx];
+  let prevIdx = (currentIdx - 1 + heroImages.length) % heroImages.length;
+  updateImageWithFade(prevIdx);
+  resetAutoSlide();
 }
+
 document.querySelector(".left_carousel").addEventListener("click", leftArrow);
 document.querySelector(".right_carousel").addEventListener("click", rightArrow);
+
+let autoSlide = setInterval(rightArrow, 5000);
+
+function resetAutoSlide() {
+  clearInterval(autoSlide);
+  autoSlide = setInterval(rightArrow, 5000);
+}
 
 /********************* Format date *********************/
 
@@ -370,9 +401,6 @@ const fetchLatestBlogs = async () => {
     }));
 
     hideModernLoader();
-    showToast("Welcome to WorLog, Login to get premium features", "info", {
-      duration: 3000
-    });
     return blogs;
   } catch (error) {
     console.error("Error fetching blogs:", error);
@@ -391,13 +419,11 @@ const displayBlogs = (blogs) => {
     if (index === 0) blogCard.classList.add("active");
     blogCard.setAttribute("data-index", index);
 
-    blogCard.innerHTML = `
+    blogCard.innerHTML += `
         <div class="card_date">
         <p>Posted on:</p>
         <span>${date}</span>
-        <span class="cat">${
-        blog.category || "Uncategorized"
-    }</span>
+        <span class="cat">${blog.category || "Uncategorized"}</span>
       </div>
         <div class="card_title">
           ${blog.title.substring(0, 40)}...
@@ -406,9 +432,7 @@ const displayBlogs = (blogs) => {
           ${blog.summary.substring(0, 100) || blog.content.substring(0, 100)}...
         </div>
         <div class="card_image">
-          <img src="${
-            blog.coverImage || "./public/Assets/images/card-imgs/default.png"
-          }">
+          <img src="${blog.coverImage || ""}">
         </div>
         <div class="card_link">
           <div class="blog_info">

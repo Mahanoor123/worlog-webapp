@@ -193,7 +193,15 @@ h2 {
 .social_icons {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+}
+.social_icons a {
+  text-decoration: none;
+  color: var(--white-color);
+  margin: 0 0.2rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+.social_icons a:hover {
+  transform: scale(1.2);
 }
 .social_icons i {
   font-size: 1rem;
@@ -350,6 +358,14 @@ main {
   transform: translate(-50%, -50%);
   width: 28vw;
 }
+/* .hero_content h1 { */
+  /* position: absolute; */
+  /* top: 50%; */
+  /* left: 50%; */
+  /* transform: translate(-50%, -50%); */
+  /* color: var(--white-color); */
+  /* font-size: 12rem; */
+/* } */
 .hero_content h1 {
   position: absolute;
   top: 50%;
@@ -357,6 +373,20 @@ main {
   transform: translate(-50%, -50%);
   color: var(--white-color);
   font-size: 12rem;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+}
+.hero_content h1.animate {
+  animation: typing 2.5s steps(7, end) forwards;
+}
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 55rem;
+  }
 }
 .hero_content p {
   position: absolute;
@@ -386,22 +416,13 @@ main {
 .write_blog i {
   margin-right: 0.7rem;
 }
-/* .fade-slide { */
-  /* opacity: 0; */
-  /* transform: translateY(20px); */
-  /* animation: fadeSlideIn 0.8s forwards; */
-/* } */
-/*  */
-/* .delay-1 { animation-delay: 0.2s; } */
-/* .delay-2 { animation-delay: 0.4s; } */
-/*  */
-/* @keyframes fadeSlideIn { */
-  /* to { */
-    /* opacity: 1; */
-    /* transform: translateY(0); */
-  /* } */
-/* } */
-
+.current_img {
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+}
+.fade-out {
+  opacity: 0;
+}
 
 /*************** All Blogs Categories *****************/
 
@@ -749,6 +770,9 @@ footer h3 {
   width: 6rem;
   height: 6rem;
   border-radius: 50%;
+}
+.creater_socials a{
+  text-decoration: none;
 }
 .creater_socials i{
   color: var(--primary-accent-color);

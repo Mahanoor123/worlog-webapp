@@ -129,7 +129,7 @@ const loadUserProfile = async (userData) => {
   if (userData.profileImage) {
     profileImage.src = userData.profileImage;
   } else {
-    profileImage.src = "/public/Assets/images/logos&illustration/user.png";
+    profileImage.src = "../images/logos&illustration/default-user.jpeg";
   }
 };
 
@@ -204,7 +204,6 @@ uploadIcon.addEventListener("click", uploadImg);
 
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    console.log("User is logged in:", user);
     displayUserProfile();
 
     const userRef = doc(db, "users", user.uid);
@@ -214,12 +213,11 @@ onAuthStateChanged(auth, async (user) => {
       const userData = userSnap.data();
       loadUserProfile(userData);
       showToast(`Hii ${userData.username}! Welcome to your profile.`);
-
     } else {
-      console.log("User data not found in Firestore.");
+      showToast("User data not found in Database.");
     }
   } else {
-    window.location.href = "index.html";
+    window.location.href = "/index.html";
   }
 });
 
@@ -272,7 +270,7 @@ const displayUserProfile = async () => {
   const userGender = document.querySelector(".user_gender");
   const profileImage = document.getElementById("profileImage");
   const bookmarkBlog = document.querySelector(".bookmark-blog");
-  // const myBlog = document.querySelector(".my-blog");
+  const myBlog = document.querySelector(".my-blog");
 
 
   try {
@@ -282,17 +280,17 @@ const displayUserProfile = async () => {
     if (userSnap.exists()) {
       const userData = userSnap.data();
 
-      userName.textContent =   userData.username || user.displayName || "Write Your Name";
-      userEmail.textContent = userData.userEmail || "Write Your Email";
-      userCountry.textContent = userData.country || "Enter Your Country";
-      userBio.textContent = userData.bio || "Write Your bio";
-      userGender.textContent = userData.gender || "Select Your gender";
-      bookmarkBlog.textContent = userData.bookmarks.length;
+      userName.textContent =   userData?.username || user?.displayName || "Write Your Name";
+      userEmail.textContent = userData?.userEmail || "Write Your Email";
+      userCountry.textContent = userData?.country || "Enter Your Country";
+      userBio.textContent = userData?.bio || "Write Your bio";
+      userGender.textContent = userData?.gender || "Select Your gender";
+      bookmarkBlog.textContent = userData?.bookmarks?.length || "";
       // myBlog.textContent = userData.blogs.length;
 
       profileImage.src =
         userData.profileImage ||
-        "../images/logos&illustration/user.png";
+        "../images/logos&illustration/blogger1.png";
     } else {
       console.log("No user data found in Firestore.");
     }
@@ -343,7 +341,7 @@ const signOutUser = async () => {
     if (confirmLogout) {
       await signOut(auth);
       profilePopup.style.display = "none";
-      window.location.href = "/";
+      window.location.href = "/index.html";
     }
   } catch (error) {
     console.error("Logout Error:", error.message);
@@ -500,7 +498,7 @@ const deleteUserAccount = async () => {
         await deleteUser(user)
           .then(() => {
             showToast("Your account has been deleted successfully.", "success");
-            window.location.href = "../html/blogs.html";
+            window.location.href = "/index.html";
           })
           .catch((error) => {
             console.error("Error deleting blog:", error);

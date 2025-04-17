@@ -266,7 +266,7 @@ body {
   cursor: pointer;
 
   &:hover {
-    color: var(--black-tint3);
+    color: var(--primary-accent-color);
   }
 }
 .login_form .signup_link {

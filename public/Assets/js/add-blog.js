@@ -70,21 +70,27 @@ const profilePopup = document.querySelector(".profile_popup");
 
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    console.log("User Logged In", user.uid);
-
-    if (profilePic) profilePic.style.display = "flex";
-
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
-
-    if (userSnap.exists()) {
-      const userData = userSnap.data();
-      profilePic.src =
-        userData.profileImage || "../images/logos&illustration/user.png";
+      const isVerified = user.emailVerified;
+      console.log("User Logged In:", user.uid, "Verified:", isVerified);
+  
+      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("isEmailVerified", isVerified);
+      localStorage.setItem("currentUserId", user.uid);
+  
+      if (profilePic) profilePic.style.display = "flex";
+  
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+  
+      if (userSnap.exists()) {
+        const userData = userSnap.data();
+        profilePic.src =
+          userData.profileImage || "../images/logos&illustration/blogger1.png";
+      };
+    } else {
+      localStorage.clear();
+      if (profilePic) profilePic.style.display = "none";
     }
-  } else {
-    if (profilePic) profilePic.style.display = "none";
-  }
 });
 
 const openProfilePopoup = () => {
@@ -97,6 +103,22 @@ profilePic.addEventListener("click", (e) => {
 });
 
 document.querySelector(".view_profile").addEventListener("click", () => {
+   if (!isUserVerified()) {
+      const userConfirmed = confirm(
+        "You need to verify your email to write a blog. Go to email inbox and confirm verification link. Want to resend verification email?"
+      );
+  
+      if (auth.currentUser && userConfirmed) {
+        sendEmailVerification(auth.currentUser)
+          .then(() => {
+            showToast("Verification email resent. Check your inbox!", "info");
+          })
+          .catch((err) => {
+            showToast("Error resending email.", "error");
+          });
+      }
+      return;
+    };
   window.location.replace("../html/profile.html");
 });
 
@@ -114,6 +136,7 @@ const signOutUser = async () => {
     if (confirmLogout) {
       await signOut(auth);
       profilePopup.style.display = "none";
+      window.location.href = "/index.html";
     }
   } catch (error) {
     console.error("Logout Error:", error.message);
@@ -121,6 +144,15 @@ const signOutUser = async () => {
 };
 
 document.querySelector(".logOut").addEventListener("click", signOutUser);
+
+/*********************  User Email Verification *********************/
+
+function isUserVerified() {
+  return (
+    localStorage.getItem("isAuthenticated") === "true" &&
+    localStorage.getItem("isEmailVerified") === "true"
+  );
+};
 
 /********************* Upload image to cloudinary *********************/
 /********************* Upload image to cloudinary *********************/
@@ -236,7 +268,7 @@ onAuthStateChanged(auth, async (user) => {
       userData = userSnap.data();
 
       profilePic.src =
-        userData.profileImage || "../images/logos&illustration/user.png";
+        userData.profileImage || "../images/logos&illustration/blogger1.png";
     }
   }
 
@@ -316,7 +348,7 @@ onAuthStateChanged(auth, async (user) => {
         uid: user.uid,
         name: userData.username || "Unknown",
         profileImage:
-          userData.profileImage || "../images/logos&illustration/user.png",
+          userData.profileImage || "../images/logos&illustration/blogger1.png",
       },
     };
 
