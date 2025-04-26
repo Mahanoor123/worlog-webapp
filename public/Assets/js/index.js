@@ -13,27 +13,35 @@ import {
   where,
 } from "../js/firebase.config.js";
 
-/********************* Navbar Toggle *********************/
-/********************* Navbar Toggle *********************/
-/********************* Navbar Toggle *********************/
+const menuToggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.navlinks');
 
-document.addEventListener("DOMContentLoaded", function () {
-  const menuToggle = document.querySelector(".menu-toggle");
-  const navLinks = document.querySelector(".navbar2");
-
-  menuToggle.addEventListener("click", function () {
-    navLinks.classList.toggle("active");
-  });
-
-  document.addEventListener("click", function (event) {
-    if (
-      !menuToggle.contains(event.target) &&
-      !navLinks.contains(event.target)
-    ) {
-      navLinks.classList.remove("active");
-    }
-  });
+menuToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
 });
+
+
+/********************* Navbar Toggle *********************/
+/********************* Navbar Toggle *********************/
+/********************* Navbar Toggle *********************/
+
+// document.addEventListener("DOMContentLoaded", function () {
+//   const menuToggle = document.querySelector(".menu-toggle");
+//   const navLinks = document.querySelector(".navbar2");
+
+//   menuToggle.addEventListener("click", function () {
+//     navLinks.classList.toggle("active");
+//   });
+
+//   document.addEventListener("click", function (event) {
+//     if (
+//       !menuToggle.contains(event.target) &&
+//       !navLinks.contains(event.target)
+//     ) {
+//       navLinks.classList.remove("active");
+//     }
+//   });
+// });
 
 /********************* Utility: Toaster *********************/
 

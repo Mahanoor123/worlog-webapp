@@ -67,18 +67,27 @@
                 <i class="fa-solid fa-spinner"></i>
             </div>
         </div>
-        
+
         <div class="user_profile">
             <aside>
                 <button class="tab-link active" data-target="profile"><i class="fa-solid fa-user"></i>My
                     Profile</button>
-                <button class="tab-link" data-target="blogs"><i class="fa-solid fa-blog"></i>My Blogs <span
-                    class="my-blog">(0)</span></button>
-                <button class="tab-link" data-target="favorites"><i class="fa-solid fa-heart"></i>My favorites<span
-                    class="bookmark-blog"></span></button>
-                <button class="tab-link" data-target="notification"><i
-                        class="fa-solid fa-bell"></i>Notifications <span class="notification-count">(0)</span></button>
-                <button class="tab-link" data-target="badges"><i class="fa-solid fa-certificate"></i>My badges <span class="badge-diplay"></span></button>
+                <div class="myBlogs">
+                    <button class="tab-link" data-target="blogs"><i class="fa-solid fa-blog"></i>My Blogs </button>
+                    <span class="my_blogs_count">0</span>
+                </div>
+                <div class="myFavorites">
+                    <button class="tab-link" data-target="favorites"><i class="fa-solid fa-heart"></i>My favorites</button>
+                    <span class="bookmark_blogs-count">0</span>
+                </div>
+                <div class="myBadges">
+                    <button class="tab-link" data-target="badges"><i class="fa-solid fa-certificate"></i>My badges </button>
+                    <span class="badge_diplay_count">0</span>
+                </div>
+                <div class="myNotifications">
+                    <button class="tab-link" data-target="notification"><i class="fa-solid fa-bell"></i>Notifications </button>
+                    <span class="notification_count">0</span>
+                </div>
                 <button class="tab-link" data-target="settings"><i class="fa-solid fa-gear"></i>Settings</button>
                 <button class="tab-link" data-target="logout" id="logoutUser"><i
                         class="fa-solid fa-arrow-right-from-bracket"></i>Logout</button>
@@ -131,7 +140,8 @@
                                 <i class="fa-solid fa-lock"></i>
                                 <input type="password" id="confirm-password" placeholder="Confirm New Password">
                             </div>
-                            <button id="change_password_btn" class="btn"><i class="fa-solid fa-pen"></i>Update Password</button>
+                            <button id="change_password_btn" class="btn"><i class="fa-solid fa-pen"></i>Update
+                                Password</button>
                         </div>
 
                         <div class="change-email-section">
@@ -142,7 +152,8 @@
                             <div class="field">
                                 <input type="email" id="new_email" placeholder="New Email">
                             </div>
-                            <button id="update_email_btn" class="btn"><i class="fa-solid fa-pen"></i>Update Email</button>
+                            <button id="update_email_btn" class="btn"><i class="fa-solid fa-pen"></i>Update
+                                Email</button>
                         </div>
                     </div>
                     <div class="delete_account">
@@ -157,8 +168,8 @@
         </div>
     </main>
 
-     <!---------------------- Footer Section ---------------------->
-     <footer>
+    <!---------------------- Footer Section ---------------------->
+    <footer>
         <div class="sub_footer">
             <p> - This blog developed by -</p>
             <img src="../images/logos&illustration/my_logo.png">
@@ -182,12 +193,12 @@
         <div class="sub_footer2">
             <blockquote>
                 “Words have the power to shape minds, shift perspectives, and spark revolutions — one blog at a time.”
-              </blockquote>
-              <div class="footer_link">
+            </blockquote>
+            <div class="footer_link">
                 <a href="#">Home</a>
                 <a href="#">All Blogs</a>
                 <a href="#">Write a blog</a>
-              </div>
+            </div>
         </div>
     </footer>
 

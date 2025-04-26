@@ -11,25 +11,32 @@ import {
   where,
 } from "../js/firebase.config.js";
 
+const menuToggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.navlinks');
+
+menuToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+});
+
 /********************* Navbar Toggle *********************/
 
-document.addEventListener("DOMContentLoaded", function () {
-  const menuToggle = document.querySelector(".menu-toggle");
-  const navLinks = document.querySelector(".navbar2");
+// document.addEventListener("DOMContentLoaded", function () {
+//   const menuToggle = document.querySelector(".menu-toggle");
+//   const navLinks = document.querySelector(".navbar2");
 
-  menuToggle.addEventListener("click", function () {
-    navLinks.classList.toggle("active");
-  });
+//   menuToggle.addEventListener("click", function () {
+//     navLinks.classList.toggle("active");
+//   });
 
-  document.addEventListener("click", function (event) {
-    if (
-      !menuToggle.contains(event.target) &&
-      !navLinks.contains(event.target)
-    ) {
-      navLinks.classList.remove("active");
-    }
-  });
-});
+//   document.addEventListener("click", function (event) {
+//     if (
+//       !menuToggle.contains(event.target) &&
+//       !navLinks.contains(event.target)
+//     ) {
+//       navLinks.classList.remove("active");
+//     }
+//   });
+// });
 
 /********************* Handling User Authentication & Profile *********************/
 /********************* Handling User Authentication & Profile *********************/
@@ -114,6 +121,15 @@ const signOutUser = async () => {
 
 document.querySelector(".logOut").addEventListener("click", signOutUser);
 
+/*********************  User Email Verification *********************/
+
+function isUserVerified() {
+  return (
+    localStorage.getItem("isAuthenticated") === "true" &&
+    localStorage.getItem("isEmailVerified") === "true"
+  );
+}
+
 /*********************  Button Navigation *********************/
 /*********************  Button Navigation *********************/
 /*********************  Button Navigation *********************/
@@ -129,25 +145,25 @@ writeBlogButton.forEach((button) => {
           window.location.href = "./public/Assets/html/signup.html";
         }
       }
-    });
-    if (!isUserVerified()) {
-      const userConfirmed = confirm(
-        "You need to verify your email to write a blog. Go to email inbox and confirm verification link. Want to resend verification email?"
-      );
-
-      if (auth.currentUser && userConfirmed) {
-        sendEmailVerification(auth.currentUser)
-          .then(() => {
-            showToast("Verification email resent. Check your inbox!", "info");
-          })
-          .catch((err) => {
-            showToast("Error resending email.", "error");
-          });
+      if (!isUserVerified()) {
+        const userConfirmed = confirm(
+          "You need to verify your email to write a blog. Go to email inbox and confirm verification link. Want to resend verification email?"
+        );
+  
+        if (auth.currentUser && userConfirmed) {
+          sendEmailVerification(auth.currentUser)
+            .then(() => {
+              showToast("Verification email resent. Check your inbox!", "info");
+            })
+            .catch((err) => {
+              showToast("Error resending email.", "error");
+            });
+        }
+        return;
       }
-      return;
-    }
-
-    window.location.href = "./public/Assets/html/add-blog.html";
+    });
+    
+    window.location.href = "../html/add-blog.html";
   });
 });
 

@@ -4,6 +4,7 @@ import {
   db,
   doc,
   getDoc,
+  getDocs,
   setDoc,
   updateDoc,
   deleteDoc,
@@ -269,9 +270,7 @@ const displayUserProfile = async () => {
   const userBio = document.querySelector(".user_bio");
   const userGender = document.querySelector(".user_gender");
   const profileImage = document.getElementById("profileImage");
-  const bookmarkBlog = document.querySelector(".bookmark-blog");
-  const myBlog = document.querySelector(".my-blog");
-
+  const bookmarkBlog = document.querySelector(".bookmark_blogs-count");
 
   try {
     const userRef = doc(db, "users", user.uid);
@@ -286,7 +285,6 @@ const displayUserProfile = async () => {
       userBio.textContent = userData?.bio || "Write Your bio";
       userGender.textContent = userData?.gender || "Select Your gender";
       bookmarkBlog.textContent = userData?.bookmarks?.length || "";
-      // myBlog.textContent = userData.blogs.length;
 
       profileImage.src =
         userData.profileImage ||

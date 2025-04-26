@@ -3,7 +3,9 @@ import {
   onAuthStateChanged,
   doc,
   db,
+  collection,
   getDoc,
+  getDocs,
   updateDoc,
   signOut,
   deleteDoc,
@@ -67,13 +69,10 @@ const writeBlogButton = document.querySelectorAll(".write_blog");
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     const isVerified = user.emailVerified;
-    console.log("User Logged In:", user.uid, "Verified:", isVerified);
 
     localStorage.setItem("isAuthenticated", "true");
     localStorage.setItem("isEmailVerified", isVerified);
     localStorage.setItem("currentUserId", user?.uid);
-    localStorage.setItem("currentUserImage", user?.profileImage);
-    localStorage.setItem("currentUserName", user?.username);
 
     if (loginButton) loginButton.style.display = "none";
     if (signupButton) signupButton.style.display = "none";
@@ -84,6 +83,10 @@ onAuthStateChanged(auth, async (user) => {
 
     if (userSnap.exists()) {
       const userData = userSnap.data();
+
+      localStorage.setItem("currentUserImage", userData?.profileImage);
+      localStorage.setItem("currentUserName", userData?.username);
+
       profilePic.src =
         userData.profileImage || "../images/logos&illustration/blogger1.png";
 
@@ -126,7 +129,7 @@ document.querySelector(".view_profile").addEventListener("click", () => {
         });
     }
     return;
-  };
+  }
   window.location.replace("../html/profile.html");
 });
 
@@ -158,7 +161,7 @@ function isUserVerified() {
     localStorage.getItem("isAuthenticated") === "true" &&
     localStorage.getItem("isEmailVerified") === "true"
   );
-};
+}
 
 /*********************  Button Navigation *********************/
 /*********************  Button Navigation *********************/
@@ -174,7 +177,7 @@ writeBlogButton.forEach((button) => {
         if (userConfirmed) {
           window.location.href = "../html/signup.html";
         }
-      };
+      }
     });
     if (!isUserVerified()) {
       const userConfirmed = confirm(
@@ -300,9 +303,11 @@ const displayBlog = (data) => {
   document.querySelector(".blog-reading-link").innerHTML = readingLinkHTML;
   document.querySelector(".blog-content").innerHTML = data.content;
   document.querySelector(".like-count").textContent = data?.likes?.length || "";
-  document.querySelector(".comment-count").textContent = data?.comments?.length || "";
+  document.querySelector(".comment-count").textContent =
+    data?.comments?.length || "";
   document.querySelector(".rating-display").textContent = data?.avgRating || "";
-  document.querySelector(".sharing-display").textContent = data?.shareCount || "";
+  document.querySelector(".sharing-display").textContent =
+    data?.shareCount || "";
 
   /********************* Delete/Edit blog Function *********************/
 
@@ -350,7 +355,7 @@ const displayBlog = (data) => {
         })
         .catch((error) => {
           console.error("Error deleting blog:", error);
-        showToast("Failed to delete blog. Please try again.");
+          showToast("Failed to delete blog. Please try again.");
         });
     } else {
       showToast("Incorrect code. Blog deletion cancelled.");
@@ -371,7 +376,7 @@ const likeBlog = async () => {
   const likeIcon = document.querySelector(".like-icon i");
 
   if (!currentUserId && !isUserVerified()) {
-    showToast("Login required to like.");
+    showToast("You must be login to like blog!");
     return;
   }
 
@@ -570,6 +575,10 @@ const ratingDisplay = document.querySelector(".rating-display");
 
 stars.forEach((star, index) => {
   star.addEventListener("click", async () => {
+    if (!currentUserId) {
+      showToast("You must be logged in to rate.", "warning");
+      return;
+    }
     const selectedRating = index + 1;
     const blogRef = doc(db, "blogs", blogId);
     const blogSnap = await getDoc(blogRef);
@@ -605,7 +614,7 @@ stars.forEach((star, index) => {
       avgRating: Number(avgRating),
     });
 
-    showToast("Thanks for the rating 🎉")
+    showToast("Thanks for the rating 🎉");
 
     updateStarUI(selectedRating);
     ratingDisplay.textContent = avgRating;
@@ -631,6 +640,11 @@ const sharingDisplay = document.querySelector(".sharing-display");
 const blogRef = doc(db, "blogs", blogId);
 
 const shareBlog = async (platformUrl) => {
+  if (!currentUserId) {
+    showToast("You must be logged in to share.", "warning");
+    return;
+  }
+
   try {
     window.open(platformUrl, "_blank");
 
